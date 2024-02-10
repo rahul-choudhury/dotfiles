@@ -29,7 +29,7 @@ zstyle ":completion:*" rehash true
 alias vim=nvim
 alias pn=pnpm
 alias ls="eza"
-alias ll="eza -la --group-directories-first"
+alias ll="eza -la --header --group-directories-first"
 alias config="/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME"
 
 bindkey -s ^f "tmux-sessionizer\n"
