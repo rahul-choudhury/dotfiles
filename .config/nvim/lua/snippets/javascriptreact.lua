@@ -6,7 +6,10 @@ local l = extras.lambda
 local fmt = require("luasnip.extras.fmt").fmt
 
 return {
-  -- usestate
+  -- jsx self closing tag
+  s("jc", fmt("<{} />", {i(1, "Component")})),
+
+  -- useState
   s(
     "us",
     fmt("const [{}, set{setter}] = useState({})", {
