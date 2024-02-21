@@ -6,6 +6,7 @@ source_if_exists() {
 
 source_if_exists "$XDG_CACHE_HOME/p10k-instant-prompt-${(%):-%n}.zsh"
 
+# thanks mac
 export HISTFILE="$XDG_STATE_HOME/zsh/history"
 
 setopt EXTENDED_HISTORY
@@ -28,8 +29,8 @@ zstyle ":completion:*" rehash true
 
 alias vim=nvim
 alias pn=pnpm
-alias ls="eza"
-alias ll="eza -la --header --group-directories-first"
+alias ls="/opt/homebrew/opt/coreutils/libexec/gnubin/ls --color=auto"
+alias ll="ls -lahF --group-directories-first"
 alias config="/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME"
 
 bindkey -s ^f "tmux-sessionizer\n"
