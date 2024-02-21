@@ -11,6 +11,10 @@ return {
     local cmp = require("cmp")
     local ls = require("luasnip")
 
+    ls.filetype_extend("typescript", { "javascript" })
+    ls.filetype_extend("javascriptreact", { "javascript" })
+    ls.filetype_extend("typescriptreact", { "javascriptreact", "javascript" })
+
     require("luasnip.loaders.from_lua").lazy_load({
       paths = {
         "~/.config/nvim/lua/snippets",
