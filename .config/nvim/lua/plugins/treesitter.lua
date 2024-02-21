@@ -1,5 +1,7 @@
 return {
   "nvim-treesitter/nvim-treesitter",
+  -- kanagawa uses old highlight groups
+  -- version = "0.9.2",
   dependencies = {
     "nvim-treesitter/nvim-treesitter-context",
     "windwp/nvim-ts-autotag",
