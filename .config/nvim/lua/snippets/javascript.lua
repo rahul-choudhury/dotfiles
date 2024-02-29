@@ -46,10 +46,19 @@ return {
     ]], {i(2), i(1, "error"), i(3)}
   )),
 
-  -- function export
+  -- default function export
   s("edf", fmt(
     [[
     export default function {}({}) {{
+      {}
+    }}
+    ]], {i(1, "name"), i(2, "params"), i(3)}
+  )),
+
+  -- named function export
+  s("ef", fmt(
+    [[
+    export function {}({}) {{
       {}
     }}
     ]], {i(1, "name"), i(2, "params"), i(3)}
