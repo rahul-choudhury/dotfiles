@@ -37,6 +37,8 @@ bindkey -s ^f "tmux-sessionizer\n"
 
 eval $(/opt/homebrew/bin/brew shellenv)
 
+source_if_exists "$CARGO_HOME/env"
+
 source_if_exists "$HOMEBREW_PREFIX/opt/fzf/shell/key-bindings.zsh"
 source_if_exists "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source_if_exists "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
