@@ -3,32 +3,37 @@ return {
   dependencies = {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
-    "folke/neodev.nvim",
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+
+    { "folke/neodev.nvim", opts = {} },
   },
   config = function()
-    local on_attach = function(_, bufnr)
-      local nmap = function(keys, func)
-        vim.keymap.set("n", keys, func, { buffer = bufnr })
-      end
+    vim.api.nvim_create_autocmd("LspAttach", {
+      group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
+      callback = function(event)
+        local map = function(keys, func)
+          vim.keymap.set("n", keys, func, { buffer = event.buf })
+        end
 
-      nmap("<leader>rn", vim.lsp.buf.rename)
-      nmap("<leader>ca", vim.lsp.buf.code_action)
+        map("gd", require("telescope.builtin").lsp_definitions)
+        map("gr", require("telescope.builtin").lsp_references)
+        map("gI", require("telescope.builtin").lsp_implementations)
+        map("<leader>D", require("telescope.builtin").lsp_type_definitions)
+        map("<leader>ds", require("telescope.builtin").lsp_document_symbols)
+        map("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols)
 
-      nmap("gd", require("telescope.builtin").lsp_definitions)
-      nmap("gr", require("telescope.builtin").lsp_references)
-      nmap("gI", require("telescope.builtin").lsp_implementations)
-      nmap("<leader>D", require("telescope.builtin").lsp_type_definitions)
-      nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols)
-      nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols)
+        map("<leader>rn", vim.lsp.buf.rename)
+        map("<leader>ca", vim.lsp.buf.code_action)
 
-      nmap("K", vim.lsp.buf.hover)
-      nmap("<C-k>", vim.lsp.buf.signature_help)
+        map("K", vim.lsp.buf.hover)
+        map("<C-k>", vim.lsp.buf.signature_help)
 
-      nmap("gD", vim.lsp.buf.declaration)
-    end
+        map("gD", vim.lsp.buf.declaration)
+      end,
+    })
 
-    require("mason").setup()
-    require("mason-lspconfig").setup()
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
     local servers = {
       clangd = {},
@@ -37,43 +42,48 @@ return {
       tsserver = {},
       eslint = {},
       cssls = {
-        css = {
-          validate = true,
-          lint = { unknownAtRules = "ignore" },
+        settings = {
+          css = {
+            validate = true,
+            lint = { unknownAtRules = "ignore" },
+          },
         },
       },
       lua_ls = {
-        Lua = {
-          diagnostics = { disable = { "missing-fields" } },
-          workspace = { checkThirdParty = false },
-          telemetry = { enable = false },
+        settings = {
+          Lua = {
+            completion = {
+              callSnippet = "Replace",
+            },
+            diagnostics = { disable = { "missing-fields" } },
+          },
         },
       },
     }
 
-    require("neodev").setup()
+    require("mason").setup()
 
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+    local ensure_installed = vim.tbl_keys(servers or {})
+    vim.list_extend(ensure_installed, {
+      "stylua",
+      "prettierd",
+      "clang-format",
+    })
+    require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
-    local mason_lspconfig = require("mason-lspconfig")
-
-    mason_lspconfig.setup({
-      ensure_installed = vim.tbl_keys(servers),
+    require("mason-lspconfig").setup({
+      handlers = {
+        function(server_name)
+          local server = servers[server_name] or {}
+          server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+          require("lspconfig")[server_name].setup(server)
+        end,
+      },
     })
 
-    mason_lspconfig.setup_handlers({
-      function(server_name)
-        require("lspconfig")[server_name].setup({
-          capabilities = capabilities,
-          on_attach = on_attach,
-          settings = servers[server_name],
-          filetypes = (servers[server_name] or {}).filetypes,
-        })
-      end,
-    })
+    -- gleam lsp is included with the install package
+    require("lspconfig").gleam.setup({})
 
-    -- rounded borders for lsp documentation
     vim.diagnostic.config({ float = { border = "rounded" } })
     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
       border = "rounded",
