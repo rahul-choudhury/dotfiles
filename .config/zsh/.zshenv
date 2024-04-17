@@ -3,6 +3,9 @@ export XDG_CACHE_HOME=$HOME/.cache
 export XDG_DATA_HOME=$HOME/.local/share
 export XDG_STATE_HOME=$HOME/.local/state
 
+export HOMEBREW_NO_ENV_HINTS=1
+export SHELL_SESSIONS_DISABLE=1
+
 export CARGO_HOME=$XDG_DATA_HOME/cargo
 export RUSTUP_HOME=$XDG_DATA_HOME/rustup
 
@@ -18,7 +21,6 @@ export HISTSIZE=50000
 export SAVEHIST=10000
 export KEYTIMEOUT=1
 
-export SHELL_SESSIONS_DISABLE=1
 
 export EDITOR="nvim"
 export VISUAL="nvim"
