@@ -4,11 +4,14 @@ source_if_exists() {
   fi
 }
 
-__git_files () {
-  _wanted files expl 'local files' _files
-}
-
 source_if_exists "$XDG_CACHE_HOME/p10k-instant-prompt-${(%):-%n}.zsh"
+
+# deletes local branches not in remote
+function gpb() {
+  git checkout main
+  git fetch -p
+  git branch -vv | grep ': gone]' | grep -v "\*" | awk '{ print $1; }' | xargs -r git branch -D
+}
 
 # thanks mac
 export HISTFILE="$XDG_STATE_HOME/zsh/history"
