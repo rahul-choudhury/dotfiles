@@ -1,3 +1,16 @@
+require("core.options")
+require("core.keymaps")
+
+-- Highlight when yanking (copying) text
+vim.api.nvim_create_autocmd("TextYankPost", {
+  desc = "Highlight when yanking (copying) text",
+  group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+})
+
+-- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -11,8 +24,13 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("core.options")
-require("core.keymaps")
-require("core.autocmds")
+require("lazy").setup({
+  "tpope/vim-fugitive",
+  "tpope/vim-sleuth",
+  "tpope/vim-vinegar",
 
-require("lazy").setup("plugins")
+  { "windwp/nvim-autopairs", opts = {} },
+  { "kylechui/nvim-surround", opts = {} },
+
+  { import = "plugins" },
+})
