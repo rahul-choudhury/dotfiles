@@ -8,7 +8,7 @@ local fmt = require("luasnip.extras.fmt").fmt
 
 return {
   -- import
-  s("imp", {t('import * as React from "react"')}),
+  s("imp", { t('import * as React from "react"') }),
 
   -- useState
   s(
@@ -16,7 +16,20 @@ return {
     fmt("const [{}, set{setter}] = React.useState({})", {
       i(1, "state"),
       i(2),
-      setter = l(l._1:sub(1, 1):upper() .. l._1:sub(2, -1), 1)
+      setter = l(l._1:sub(1, 1):upper() .. l._1:sub(2, -1), 1),
     })
+  ),
+
+  -- useEffect
+  s(
+    "ue",
+    fmt(
+      [[
+      React.useEffect(() => {{
+        {}
+      }}, [{}])
+    ]],
+      { i(1), i(2, "dependencies") }
+    )
   ),
 }
