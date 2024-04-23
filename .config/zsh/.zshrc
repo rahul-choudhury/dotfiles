@@ -4,6 +4,10 @@ source_if_exists() {
   fi
 }
 
+__git_files () {
+  _wanted files expl 'local files' _files
+}
+
 source_if_exists "$XDG_CACHE_HOME/p10k-instant-prompt-${(%):-%n}.zsh"
 
 # thanks mac
