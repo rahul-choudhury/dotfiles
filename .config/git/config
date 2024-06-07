@@ -1,0 +1,12 @@
+[user]
+    name = Rahul Choudhury
+    email = rchoudhury63@gmail.com
+
+[init]
+    defaultBranch = main
+
+[push]
+    autoSetupRemote = true
+
+[includeif "gitdir:~/Developer/work/"]
+    path = ~/.config/git/config_work
