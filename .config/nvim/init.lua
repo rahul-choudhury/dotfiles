@@ -36,6 +36,22 @@ require("lazy").setup({
   "tpope/vim-sleuth",
   "tpope/vim-vinegar",
 
+  "github/copilot.vim",
+
+  {
+    "rose-pine/neovim",
+    name = "rose-pine",
+    priority = 1000,
+    config = function()
+      require("rose-pine").setup({
+        extend_background_behind_borders = false,
+        disable_float_background = true,
+      })
+
+      vim.cmd("colorscheme rose-pine-moon")
+    end,
+  },
+
   {
     "mbbill/undotree",
     config = function()
