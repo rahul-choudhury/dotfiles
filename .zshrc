@@ -2,6 +2,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+export PATH=$N_PREFIX/bin:$HOME/.local/bin:$PATH
+
 setopt SHARE_HISTORY
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
@@ -17,11 +19,14 @@ zstyle ':completion:*' rehash true
 eval $(/opt/homebrew/bin/brew shellenv)
 
 alias pn=pnpm
-
+alias vim=nvim
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias ls='ls --color=auto'
 alias ll='ls -lAhsF --color=auto'
 
 source <(fzf --zsh)
+
+bindkey -s ^f "tmux-sessionizer\n"
 
 source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"

@@ -7,10 +7,5 @@ export HISTSIZE=50000
 export SAVEHIST=10000
 export KEYTIMEOUT=1
 
-export EDITOR=vim
-export VISUAL=vim
-
-typeset -U path PATH
-path=($N_PREFIX/bin $path)
-
-export PATH
+export EDITOR=nvim
+export VISUAL=nvim
