@@ -3,16 +3,17 @@ return {
   opts = {
     notify_on_error = false,
     format_after_save = {
-      lsp_fallback = true,
+      lsp_format = "fallback",
     },
     formatters_by_ft = {
+      cpp = { "clang-format" },
       lua = { "stylua" },
-      html = { { "prettierd", "prettier" } },
-      css = { { "prettierd", "prettier" } },
-      javascript = { { "prettierd", "prettier" } },
-      typescript = { { "prettierd", "prettier" } },
-      javascriptreact = { { "prettierd", "prettier" } },
-      typescriptreact = { { "prettierd", "prettier" } },
+      html = { "prettier" },
+      css = { "prettier" },
+      javascript = { "prettier" },
+      typescript = { "prettier" },
+      javascriptreact = { "prettier" },
+      typescriptreact = { "prettier" },
     },
   },
 }
