@@ -26,3 +26,5 @@ vim.opt.splitright = true
 vim.opt.splitbelow = true
 
 vim.opt.list = true
+
+vim.opt.pumheight = 15
