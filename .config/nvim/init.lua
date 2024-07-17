@@ -46,6 +46,7 @@ require("lazy").setup({
       require("rose-pine").setup({
         extend_background_behind_borders = false,
         disable_float_background = true,
+        styles = { italic = false },
       })
 
       vim.cmd("colorscheme rose-pine-moon")
