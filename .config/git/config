@@ -8,5 +8,12 @@
 [push]
     autoSetupRemote = true
 
-[includeif "gitdir:~/Developer/work/"]
+[alias]
+    s = status -s
+    ai = add --interactive
+    ap = add --patch
+    ca = commit --amend
+    ce = commit --amend --no-edit
+
+[includeif "gitdir:~/Developer/Work/"]
     path = ~/.config/git/config_work
