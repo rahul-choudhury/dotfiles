@@ -9,32 +9,41 @@ return {
         end
         map("n", "gd", vim.lsp.buf.definition)
 
-        -- future default mappings
-        map("n", "grr", vim.lsp.buf.references)
-        map("n", "grn", vim.lsp.buf.rename)
-        map({ "n", "x" }, "gra", vim.lsp.buf.code_action)
-        map("i", "<C-S>", vim.lsp.buf.signature_help)
+        map("n", "gA", vim.lsp.buf.references)
+        map("n", "cd", vim.lsp.buf.rename)
+        map("n", "g.", vim.lsp.buf.code_action)
 
-        map("n", "<leader>ds", require("telescope.builtin").lsp_document_symbols)
-        map("n", "<leader>ws", require("telescope.builtin").lsp_workspace_symbols)
+        map("n", "gs", require("telescope.builtin").lsp_document_symbols)
+        map("n", "gS", require("telescope.builtin").lsp_workspace_symbols)
       end,
     })
 
     local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
     local servers = {
-      rust_analyzer = {},
-
-      tsserver = {},
-      tailwindcss = {},
+      clangd = {},
+      vtsls = {},
       eslint = {},
-
       html = {},
+
       cssls = {
         settings = {
           css = {
             validate = true,
             lint = { unknownAtRules = "ignore" },
+          },
+        },
+      },
+
+      tailwindcss = {
+        settings = {
+          tailwindCSS = {
+            experimental = {
+              classRegex = {
+                { "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
+                { "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+              },
+            },
           },
         },
       },
