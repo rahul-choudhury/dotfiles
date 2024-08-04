@@ -88,11 +88,10 @@ require("lazy").setup({
     "ibhagwan/fzf-lua",
     config = function()
       require("fzf-lua").setup({
-        winopts = {
-          split = "belowright 15new",
-          preview = { hidden = "hidden" },
-        },
+        keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } },
+        winopts = { split = "belowright 15new", preview = { hidden = "hidden" } },
       })
+
       vim.keymap.set("n", "<C-p>", require("fzf-lua").files)
       vim.keymap.set("n", [[<C-\>]], require("fzf-lua").buffers)
       vim.keymap.set("n", "<C-g>", require("fzf-lua").grep)
