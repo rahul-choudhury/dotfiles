@@ -23,9 +23,7 @@ return {
       },
     })
 
-    luasnip.filetype_extend("typescript", { "javascript" })
-    luasnip.filetype_extend("javascriptreact", { "javascript" })
-    luasnip.filetype_extend("typescriptreact", { "javascriptreact", "javascript" })
+    luasnip.filetype_extend("typescriptreact", { "typescript" })
 
     cmp.setup({
       snippet = {
@@ -33,24 +31,13 @@ return {
           luasnip.lsp_expand(args.body)
         end,
       },
-      completion = {
-        completeopt = "menu,menuone,noinsert",
-      },
-      window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
-      },
-      formatting = {
-        format = function(_, vim_item)
-          vim_item.menu = ""
-          return vim_item
-        end,
-      },
+      completion = { completeopt = "menu,menuone,noinsert" },
       mapping = cmp.mapping.preset.insert({
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
-        ["<C-y>"] = cmp.mapping.confirm({ select = true }),
+        ["<C-e>"] = cmp.mapping.abort(),
         ["<C-Space>"] = cmp.mapping.complete({}),
+        ["<C-y>"] = cmp.mapping.confirm({ select = true }),
         ["<C-l>"] = cmp.mapping(function()
           if luasnip.expand_or_locally_jumpable() then
             luasnip.expand_or_jump()
@@ -63,8 +50,8 @@ return {
         end, { "i", "s" }),
       }),
       sources = cmp.config.sources({
-        { name = "nvim_lsp" },
         { name = "luasnip" },
+        { name = "nvim_lsp" },
       }),
     })
   end,
