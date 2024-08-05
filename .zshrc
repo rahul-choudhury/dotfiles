@@ -22,6 +22,13 @@ alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias ls='ls --color=auto'
 alias ll='ls -lAhsF --color=auto'
 
+function vi-yank-pbcopy {
+    zle vi-yank
+    echo "$CUTBUFFER" | pbcopy -i
+}
+zle -N vi-yank-pbcopy
+bindkey -M vicmd 'y' vi-yank-pbcopy
+
 source <(fzf --zsh)
 
 bindkey -s ^f "tmux-sessionizer\n"
