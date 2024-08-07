@@ -1,4 +1,5 @@
 require("opts")
+require("lsp")
 
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
@@ -100,5 +101,5 @@ require("lazy").setup({
   { "folke/ts-comments.nvim", opts = {} },
   { "kylechui/nvim-surround", opts = {} },
 
-  { import = "lsp" },
+  { import = "plugins" },
 })
