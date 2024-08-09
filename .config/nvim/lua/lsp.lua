@@ -3,7 +3,7 @@
 -- LSP client keymaps
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
-  callback = function(event)
+  callback = function()
     vim.keymap.set("n", "grn", vim.lsp.buf.rename)
     vim.keymap.set({ "n", "x" }, "gra", vim.lsp.buf.code_action)
     vim.keymap.set("n", "grr", vim.lsp.buf.references)
@@ -154,6 +154,38 @@ vim.api.nvim_create_autocmd("FileType", {
       root_dir = vim.fs.root(ev.buf, { "package.json", ".git" }),
       single_file_support = true,
       capabilities = capabilities,
+    })
+  end,
+})
+
+-- lua
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "lua" },
+  callback = function(ev)
+    vim.lsp.start({
+      name = "lua",
+      cmd = { "lua-language-server" },
+      single_file_support = true,
+      root_dir = vim.fs.root(ev.buf, {
+        ".luarc.json",
+        ".luarc.jsonc",
+        ".luacheckrc",
+        ".stylua.toml",
+        "stylua.toml",
+        ".git",
+      }),
+      on_init = function(client)
+        local path = client.workspace_folders[1].name
+        if vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. "/.luarc.jsonc") then
+          return
+        end
+
+        client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
+          runtime = { version = "LuaJIT" },
+          workspace = { checkThirdParty = false, library = { vim.env.VIMRUNTIME } },
+        })
+      end,
+      settings = { Lua = { diagnostics = { disable = { "undefined-field" } } } },
     })
   end,
 })
