@@ -15,9 +15,6 @@
     ca = commit --amend
     ce = commit --amend --no-edit
     rc = rebase --continue
-    ra = reabse --abort
-    czz = stash --incldue-untracked
+    ra = rebase --abort
+    czz = stash --include-untracked
     czP = stash pop
-
-[includeif "gitdir:~/Developer/Work/"]
-    path = ~/.config/git/config_work
