@@ -1,17 +1,4 @@
 -- h: lsp
-
--- LSP client keymaps
-vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
-  callback = function()
-    vim.keymap.set("n", "grn", vim.lsp.buf.rename)
-    vim.keymap.set({ "n", "x" }, "gra", vim.lsp.buf.code_action)
-    vim.keymap.set("n", "grr", vim.lsp.buf.references)
-    vim.keymap.set("i", "<C-S>", vim.lsp.buf.signature_help)
-  end,
-})
-
--- LSP server event handlers
 -- Refer: https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/server_configurations
 
 -- gleam
@@ -154,6 +141,19 @@ vim.api.nvim_create_autocmd("FileType", {
       root_dir = vim.fs.root(ev.buf, { "package.json", ".git" }),
       single_file_support = true,
       capabilities = capabilities,
+    })
+  end,
+})
+
+-- json
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "json" },
+  callback = function(ev)
+    vim.lsp.start({
+      name = "json",
+      cmd = { "vscode-json-language-server", "--stdio" },
+      root_dir = vim.fs.root(ev.buf, { "package.json", ".git" }),
+      single_file_support = true,
     })
   end,
 })

@@ -81,6 +81,21 @@ require("lazy").setup({
   },
 
   {
+    "hrsh7th/nvim-cmp",
+    dependencies = { "hrsh7th/cmp-nvim-lsp" },
+    config = function()
+      local cmp = require("cmp")
+      cmp.setup({
+        mapping = cmp.mapping.preset.insert({
+          ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-f>"] = cmp.mapping.scroll_docs(4),
+        }),
+        sources = cmp.config.sources({ { name = "nvim_lsp" } }),
+      })
+    end,
+  },
+
+  {
     "stevearc/conform.nvim",
     opts = {
       notify_on_error = false,
@@ -100,6 +115,4 @@ require("lazy").setup({
   { "windwp/nvim-autopairs", opts = {} },
   { "folke/ts-comments.nvim", opts = {} },
   { "kylechui/nvim-surround", opts = {} },
-
-  { import = "plugins" },
 })
