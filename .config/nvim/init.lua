@@ -86,6 +86,12 @@ require("lazy").setup({
     config = function()
       local cmp = require("cmp")
       cmp.setup({
+        snippet = {
+          expand = function(args)
+            vim.snippet.expand(args.body)
+          end,
+        },
+        completion = { completeopt = "menu,menuone,noinsert" },
         mapping = cmp.mapping.preset.insert({
           ["<C-d>"] = cmp.mapping.scroll_docs(-4),
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
@@ -102,6 +108,7 @@ require("lazy").setup({
       format_after_save = { lsp_format = "fallback" },
       formatters_by_ft = {
         lua = { "stylua" },
+        html = { "prettier" },
         css = { "prettier" },
         javascript = { "prettier" },
         typescript = { "prettier" },
