@@ -1,6 +1,3 @@
-require("opts")
-require("lsp")
-
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
   callback = function()
@@ -20,6 +17,23 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
+
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
+vim.opt.wrap = false
+vim.opt.undofile = true
+vim.opt.hlsearch = false
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.signcolumn = "yes"
+vim.opt.pumheight = 15
 
 require("lazy").setup({
   "tpope/vim-fugitive",
@@ -68,15 +82,17 @@ require("lazy").setup({
   {
     "ibhagwan/fzf-lua",
     config = function()
-      require("fzf-lua").setup({
+      local fzf_lua = require("fzf-lua")
+
+      fzf_lua.setup({
         keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } },
         winopts = { split = "belowright 15new", preview = { hidden = "hidden" } },
       })
 
-      vim.keymap.set("n", "<C-p>", require("fzf-lua").files)
-      vim.keymap.set("n", [[<C-\>]], require("fzf-lua").buffers)
-      vim.keymap.set("n", "<C-g>", require("fzf-lua").grep)
-      vim.keymap.set("n", "<C-l>", require("fzf-lua").live_grep)
+      vim.keymap.set("n", "<leader>sf", fzf_lua.files)
+      vim.keymap.set("n", "<leader>sw", fzf_lua.grep_cword)
+      vim.keymap.set("n", "<leader>sg", fzf_lua.live_grep)
+      vim.keymap.set("n", "<leader>/", fzf_lua.lgrep_curbuf)
     end,
   },
 
@@ -98,6 +114,47 @@ require("lazy").setup({
         }),
         sources = cmp.config.sources({ { name = "nvim_lsp" } }),
       })
+    end,
+  },
+
+  {
+    "neovim/nvim-lspconfig",
+    config = function()
+      local servers = {
+        gleam = {},
+        vtsls = {},
+        jsonls = {},
+        eslint = {},
+        html = {},
+        cssls = {
+          settings = {
+            css = {
+              validate = true,
+              lint = { unknownAtRules = "ignore" },
+            },
+          },
+        },
+        tailwindcss = {
+          settings = {
+            tailwindCSS = {
+              experimental = {
+                classRegex = {
+                  { "class:\\s*?[\"'`]([^\"'`]*).*?," },
+                  { "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
+                  { "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+                },
+              },
+            },
+          },
+        },
+      }
+
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+      for server, opts in pairs(servers) do
+        opts.capabilities = capabilities
+        require("lspconfig")[server].setup(opts)
+      end
     end,
   },
 
