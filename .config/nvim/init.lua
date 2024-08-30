@@ -1,10 +1,3 @@
-vim.api.nvim_create_autocmd("TextYankPost", {
-  group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-})
-
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -39,6 +32,7 @@ require("lazy").setup({
   "tpope/vim-fugitive",
   "tpope/vim-sleuth",
   "tpope/vim-vinegar",
+
   "github/copilot.vim",
 
   {
@@ -89,30 +83,58 @@ require("lazy").setup({
         winopts = { split = "belowright 15new", preview = { hidden = "hidden" } },
       })
 
-      vim.keymap.set("n", "<leader>sf", fzf_lua.files)
-      vim.keymap.set("n", "<leader>sw", fzf_lua.grep_cword)
-      vim.keymap.set("n", "<leader>sg", fzf_lua.live_grep)
-      vim.keymap.set("n", "<leader>/", fzf_lua.lgrep_curbuf)
+      vim.keymap.set("n", "<C-p>", fzf_lua.files)
+      vim.keymap.set("n", "<C-g>", fzf_lua.grep)
+      vim.keymap.set("n", "<C-l>", fzf_lua.live_grep)
     end,
   },
 
   {
     "hrsh7th/nvim-cmp",
-    dependencies = { "hrsh7th/cmp-nvim-lsp" },
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "L3MON4D3/LuaSnip",
+      "saadparwaiz1/cmp_luasnip",
+    },
     config = function()
       local cmp = require("cmp")
+      local luasnip = require("luasnip")
+
+      require("luasnip.loaders.from_lua").lazy_load({
+        paths = {
+          vim.fn.stdpath("config") .. "/snippets",
+        },
+      })
+
+      luasnip.filetype_extend("typescriptreact", { "typescript" })
+
       cmp.setup({
         snippet = {
           expand = function(args)
-            vim.snippet.expand(args.body)
+            luasnip.lsp_expand(args.body)
           end,
         },
         completion = { completeopt = "menu,menuone,noinsert" },
         mapping = cmp.mapping.preset.insert({
           ["<C-d>"] = cmp.mapping.scroll_docs(-4),
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
+          ["<C-y>"] = cmp.mapping.confirm({ select = true }),
+          ["<C-Space>"] = cmp.mapping.complete({}),
+          ["<C-l>"] = cmp.mapping(function()
+            if luasnip.expand_or_locally_jumpable() then
+              luasnip.expand_or_jump()
+            end
+          end, { "i", "s" }),
+          ["<C-h>"] = cmp.mapping(function()
+            if luasnip.locally_jumpable(-1) then
+              luasnip.jump(-1)
+            end
+          end, { "i", "s" }),
         }),
-        sources = cmp.config.sources({ { name = "nvim_lsp" } }),
+        sources = cmp.config.sources({
+          { name = "luasnip" },
+          { name = "nvim_lsp" },
+        }),
       })
     end,
   },
@@ -167,6 +189,7 @@ require("lazy").setup({
         lua = { "stylua" },
         html = { "prettier" },
         css = { "prettier" },
+        json = { "prettier" },
         javascript = { "prettier" },
         typescript = { "prettier" },
         javascriptreact = { "prettier" },
