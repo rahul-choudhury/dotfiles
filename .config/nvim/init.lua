@@ -33,8 +33,6 @@ require("lazy").setup({
   "tpope/vim-sleuth",
   "tpope/vim-vinegar",
 
-  "github/copilot.vim",
-
   {
     "mbbill/undotree",
     config = function()
@@ -86,6 +84,7 @@ require("lazy").setup({
       vim.keymap.set("n", "<C-p>", fzf_lua.files)
       vim.keymap.set("n", "<C-g>", fzf_lua.grep)
       vim.keymap.set("n", "<C-l>", fzf_lua.live_grep)
+      vim.keymap.set("n", [[<C-\>]], fzf_lua.buffers)
     end,
   },
 
@@ -142,8 +141,18 @@ require("lazy").setup({
   {
     "neovim/nvim-lspconfig",
     config = function()
+      vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function()
+          vim.keymap.set("n", "grn", vim.lsp.buf.rename)
+          vim.keymap.set("n", "gra", vim.lsp.buf.code_action)
+          vim.keymap.set("n", "grr", vim.lsp.buf.references)
+          vim.keymap.set({ "n", "s" }, "<C-s>", vim.lsp.buf.signature_help)
+        end,
+      })
+
       local servers = {
         gleam = {},
+        gopls = {},
         vtsls = {},
         jsonls = {},
         eslint = {},
