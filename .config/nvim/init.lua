@@ -153,7 +153,12 @@ require("lazy").setup({
       local servers = {
         gleam = {},
         gopls = {},
-        vtsls = {},
+        zls = {},
+        vtsls = {
+          settings = {
+            vtsls = { autoUseWorkspaceTsdk = true },
+          },
+        },
         jsonls = {},
         eslint = {},
         html = {},
