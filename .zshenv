@@ -5,6 +5,8 @@ export N_PREFIX=$HOME/.n
 export N_PRESERVE_NPM=1
 export N_PRESERVE_COREPACK=1
 
+export BUN_INSTALL=$HOME/.bun
+
 export FZF_DEFAULT_OPTS="
 --color=fg:#908caa,bg:#232136,hl:#ea9a97
 --color=fg+:#e0def4,bg+:#393552,hl+:#ea9a97
@@ -19,5 +21,4 @@ export KEYTIMEOUT=1
 export EDITOR=nvim
 export VISUAL=nvim
 
-export PATH=$N_PREFIX/bin:$HOME/.local/bin:$PATH
-
+export PATH=$N_PREFIX/bin:$HOME/.local/bin:$BUN_INSTALL/bin:$PATH

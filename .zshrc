@@ -33,6 +33,8 @@ source <(fzf --zsh)
 
 bindkey -s ^f "tmux-sessionizer\n"
 
+source "$BUN_INSTALL/_bun"
+
 source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 source "$HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme"
