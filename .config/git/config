@@ -10,15 +10,3 @@
 
 [pull]
     rebase = true
-
-[alias]
-    s = status -s
-    ai = add --interactive
-    ap = add --patch
-    ca = commit --amend
-    ce = commit --amend --no-edit
-    ri = rebase --interactive
-    rc = rebase --continue
-    ra = rebase --abort
-    czz = stash --include-untracked
-    czP = stash pop
