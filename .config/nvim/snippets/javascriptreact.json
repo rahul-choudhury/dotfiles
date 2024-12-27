@@ -1,0 +1,54 @@
+{
+  "Next.js use client directive": {
+    "prefix": "nuc",
+    "body": ["use client;"],
+    "description": "Next.js use client directive"
+  },
+  "Next.js use server directive": {
+    "prefix": "nus",
+    "body": ["use server;"],
+    "description": "Next.js use server directive"
+  },
+  "Next.js page export": {
+    "prefix": "npe",
+    "body": [
+      "export default function Page() {",
+      "  return (",
+      "    $1",
+      "  );",
+      "}"
+    ],
+    "description": "Next.js page export"
+  },
+  "Next.js layout export": {
+    "prefix": "nle",
+    "body": [
+      "export default function Layout({ children }) {",
+      "  return (",
+      "    $1",
+      "  );",
+      "}"
+    ],
+    "description": "Next.js layout export"
+  },
+  "React namespace import": {
+    "prefix": "rni",
+    "body": "import * as React from 'react';",
+    "description": "React namespace import"
+  },
+  "React useState hook": {
+    "prefix": "ush",
+    "body": "const [$1, set$1] = React.useState($2);",
+    "description": "React useState hook"
+  },
+  "React useEffect hook": {
+    "prefix": "ueh",
+    "body": ["React.useEffect(() => {", "  $1", "}, [$2]);"],
+    "description": "React useEffect hook"
+  },
+  "React useRef hook": {
+    "prefix": "urh",
+    "body": "const $1 = React.useRef($2);",
+    "description": "React useRef hook"
+  }
+}

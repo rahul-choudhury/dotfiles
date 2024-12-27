@@ -26,19 +26,24 @@ vim.opt.hlsearch = false
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.signcolumn = "yes"
-vim.opt.pumheight = 15
+
+vim.keymap.set("n", "<M-j>", vim.cmd.cnext)
+vim.keymap.set("n", "<M-k>", vim.cmd.cprev)
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
+vim.keymap.set({ "n", "v" }, "<leader>Y", [["+Y]])
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+})
 
 require("lazy").setup({
   "tpope/vim-fugitive",
   "tpope/vim-sleuth",
   "tpope/vim-vinegar",
-
-  {
-    "mbbill/undotree",
-    config = function()
-      vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
-    end,
-  },
+  "github/copilot.vim",
 
   {
     "rose-pine/neovim",
@@ -89,57 +94,8 @@ require("lazy").setup({
   },
 
   {
-    "hrsh7th/nvim-cmp",
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "L3MON4D3/LuaSnip",
-      "saadparwaiz1/cmp_luasnip",
-    },
-    config = function()
-      local cmp = require("cmp")
-      local luasnip = require("luasnip")
-
-      require("luasnip.loaders.from_lua").lazy_load({
-        paths = {
-          vim.fn.stdpath("config") .. "/snippets",
-        },
-      })
-
-      luasnip.filetype_extend("typescriptreact", { "typescript" })
-
-      cmp.setup({
-        snippet = {
-          expand = function(args)
-            luasnip.lsp_expand(args.body)
-          end,
-        },
-        completion = { completeopt = "menu,menuone,noinsert" },
-        mapping = cmp.mapping.preset.insert({
-          ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-f>"] = cmp.mapping.scroll_docs(4),
-          ["<C-y>"] = cmp.mapping.confirm({ select = true }),
-          ["<C-Space>"] = cmp.mapping.complete({}),
-          ["<C-l>"] = cmp.mapping(function()
-            if luasnip.expand_or_locally_jumpable() then
-              luasnip.expand_or_jump()
-            end
-          end, { "i", "s" }),
-          ["<C-h>"] = cmp.mapping(function()
-            if luasnip.locally_jumpable(-1) then
-              luasnip.jump(-1)
-            end
-          end, { "i", "s" }),
-        }),
-        sources = cmp.config.sources({
-          { name = "luasnip" },
-          { name = "nvim_lsp" },
-        }),
-      })
-    end,
-  },
-
-  {
     "neovim/nvim-lspconfig",
+    dependencies = { "saghen/blink.cmp" },
     config = function()
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function()
@@ -168,6 +124,10 @@ require("lazy").setup({
               validate = true,
               lint = { unknownAtRules = "ignore" },
             },
+            scss = {
+              validate = true,
+              lint = { unknownAtRules = "ignore" },
+            },
           },
         },
         tailwindcss = {
@@ -185,13 +145,19 @@ require("lazy").setup({
         },
       }
 
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      local capabilities = require("blink.cmp").get_lsp_capabilities()
 
       for server, opts in pairs(servers) do
         opts.capabilities = capabilities
         require("lspconfig")[server].setup(opts)
       end
     end,
+  },
+
+  {
+    "saghen/blink.cmp",
+    version = "*",
+    opts = { sources = { cmdline = {} } },
   },
 
   {

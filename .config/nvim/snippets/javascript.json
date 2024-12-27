@@ -1,0 +1,33 @@
+{
+  "Log to the console": {
+    "prefix": "log",
+    "body": ["console.log($1);", "$0"],
+    "description": "Log to the console"
+  },
+  "Function Declaration": {
+    "prefix": "fn",
+    "body": ["function $1($2) {", "  $3", "}"],
+    "description": "Function Declaration"
+  },
+  "Try-catch block": {
+    "prefix": "try",
+    "body": [
+      "try {",
+      "  $1",
+      "} catch (error) {",
+      "  console.error(error);",
+      "}"
+    ],
+    "description": "Try-catch block"
+  },
+  "If statement": {
+    "prefix": "if",
+    "body": ["if ($1) {", "  $2", "}"],
+    "description": "If statement"
+  },
+  "For-of loop": {
+    "prefix": "forof",
+    "body": ["for (const $1 of $2) {", "  $3", "}"],
+    "description": "For-of loop"
+  }
+}
