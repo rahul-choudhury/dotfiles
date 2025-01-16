@@ -1,12 +1,12 @@
 {
   "Next.js use client directive": {
     "prefix": "nuc",
-    "body": ["use client;"],
+    "body": "\"use client\";",
     "description": "Next.js use client directive"
   },
   "Next.js use server directive": {
     "prefix": "nus",
-    "body": ["use server;"],
+    "body": "\"use server\";",
     "description": "Next.js use server directive"
   },
   "Next.js page export": {
@@ -33,7 +33,7 @@
   },
   "React namespace import": {
     "prefix": "rni",
-    "body": "import * as React from 'react';",
+    "body": "import * as React from \"react\";",
     "description": "React namespace import"
   },
   "React useState hook": {

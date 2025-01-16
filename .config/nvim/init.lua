@@ -29,6 +29,7 @@ vim.opt.signcolumn = "yes"
 
 vim.keymap.set("n", "<M-j>", vim.cmd.cnext)
 vim.keymap.set("n", "<M-k>", vim.cmd.cprev)
+vim.keymap.set("n", "<leader>d", '"_d')
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set({ "n", "v" }, "<leader>Y", [["+Y]])
 
@@ -43,7 +44,6 @@ require("lazy").setup({
   "tpope/vim-fugitive",
   "tpope/vim-sleuth",
   "tpope/vim-vinegar",
-  "github/copilot.vim",
 
   {
     "rose-pine/neovim",
@@ -51,7 +51,7 @@ require("lazy").setup({
     priority = 1000,
     config = function()
       require("rose-pine").setup({ styles = { italic = false } })
-      vim.cmd("colorscheme rose-pine")
+      vim.cmd("colorscheme rose-pine-moon")
     end,
   },
 
@@ -83,13 +83,44 @@ require("lazy").setup({
 
       fzf_lua.setup({
         keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } },
-        winopts = { split = "belowright 15new", preview = { hidden = "hidden" } },
       })
 
-      vim.keymap.set("n", "<C-p>", fzf_lua.files)
-      vim.keymap.set("n", "<C-g>", fzf_lua.grep)
-      vim.keymap.set("n", "<C-l>", fzf_lua.live_grep)
-      vim.keymap.set("n", [[<C-\>]], fzf_lua.buffers)
+      vim.keymap.set("n", "<leader>ff", fzf_lua.files)
+      vim.keymap.set("n", "<leader>fg", fzf_lua.grep)
+      vim.keymap.set("n", "<leader>fl", fzf_lua.live_grep)
+      vim.keymap.set("n", "<leader>fb", fzf_lua.buffers)
+    end,
+  },
+
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      local harpoon = require("harpoon")
+      harpoon:setup()
+
+      vim.keymap.set("n", "<leader>a", function()
+        harpoon:list():add()
+      end)
+      vim.keymap.set("n", "<C-e>", function()
+        harpoon.ui:toggle_quick_menu(harpoon:list(), {
+          title_pos = "center",
+        })
+      end)
+
+      vim.keymap.set("n", "<C-h>", function()
+        harpoon:list():select(1)
+      end)
+      vim.keymap.set("n", "<C-j>", function()
+        harpoon:list():select(2)
+      end)
+      vim.keymap.set("n", "<C-k>", function()
+        harpoon:list():select(3)
+      end)
+      vim.keymap.set("n", "<C-l>", function()
+        harpoon:list():select(4)
+      end)
     end,
   },
 
