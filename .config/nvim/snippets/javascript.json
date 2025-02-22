@@ -24,10 +24,5 @@
     "prefix": "if",
     "body": ["if ($1) {", "  $2", "}"],
     "description": "If statement"
-  },
-  "For-of loop": {
-    "prefix": "forof",
-    "body": ["for (const $1 of $2) {", "  $3", "}"],
-    "description": "For-of loop"
   }
 }

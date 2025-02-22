@@ -1,16 +1,16 @@
 {
+  "CSS Module import statement": {
+    "prefix": "icm",
+    "body": "import styles from \"./$1\"",
+    "description": "CSS Module import statement"
+  },
   "Next.js use client directive": {
-    "prefix": "nuc",
+    "prefix": "ucd",
     "body": "\"use client\";",
     "description": "Next.js use client directive"
   },
-  "Next.js use server directive": {
-    "prefix": "nus",
-    "body": "\"use server\";",
-    "description": "Next.js use server directive"
-  },
   "Next.js page export": {
-    "prefix": "npe",
+    "prefix": "page",
     "body": [
       "export default function Page() {",
       "  return (",
@@ -21,7 +21,7 @@
     "description": "Next.js page export"
   },
   "Next.js layout export": {
-    "prefix": "nle",
+    "prefix": "layout",
     "body": [
       "export default function Layout({ children }) {",
       "  return (",
@@ -38,17 +38,17 @@
   },
   "React useState hook": {
     "prefix": "ush",
-    "body": "const [$1, set$1] = React.useState($2);",
+    "body": "const [$1, set$1] = useState($2);",
     "description": "React useState hook"
   },
   "React useEffect hook": {
     "prefix": "ueh",
-    "body": ["React.useEffect(() => {", "  $1", "}, [$2]);"],
+    "body": ["useEffect(() => {", "  $1", "}, [$2]);"],
     "description": "React useEffect hook"
   },
   "React useRef hook": {
     "prefix": "urh",
-    "body": "const $1 = React.useRef($2);",
+    "body": "const $1 = useRef($2);",
     "description": "React useRef hook"
   }
 }

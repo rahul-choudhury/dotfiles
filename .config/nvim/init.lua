@@ -82,13 +82,17 @@ require("lazy").setup({
       local fzf_lua = require("fzf-lua")
 
       fzf_lua.setup({
-        keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } },
+        keymap = {
+          fzf = {
+            ["ctrl-q"] = "select-all+accept",
+          },
+        },
       })
 
       vim.keymap.set("n", "<leader>ff", fzf_lua.files)
-      vim.keymap.set("n", "<leader>fg", fzf_lua.grep)
-      vim.keymap.set("n", "<leader>fl", fzf_lua.live_grep)
-      vim.keymap.set("n", "<leader>fb", fzf_lua.buffers)
+      vim.keymap.set("n", "<leader>lg", fzf_lua.live_grep)
+      vim.keymap.set("n", "<leader>bg", fzf_lua.lgrep_curbuf)
+      vim.keymap.set("n", "<leader>ds", fzf_lua.lsp_document_symbols)
     end,
   },
 
@@ -125,6 +129,16 @@ require("lazy").setup({
   },
 
   {
+    "saghen/blink.cmp",
+    version = "*",
+    opts = {
+      cmdline = {
+        enabled = false,
+      },
+    },
+  },
+
+  {
     "neovim/nvim-lspconfig",
     dependencies = { "saghen/blink.cmp" },
     config = function()
@@ -138,9 +152,6 @@ require("lazy").setup({
       })
 
       local servers = {
-        gleam = {},
-        gopls = {},
-        zls = {},
         vtsls = {
           settings = {
             vtsls = { autoUseWorkspaceTsdk = true },
@@ -183,12 +194,6 @@ require("lazy").setup({
         require("lspconfig")[server].setup(opts)
       end
     end,
-  },
-
-  {
-    "saghen/blink.cmp",
-    version = "*",
-    opts = { sources = { cmdline = {} } },
   },
 
   {
