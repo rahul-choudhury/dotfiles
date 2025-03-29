@@ -7,6 +7,8 @@ setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_SAVE_NO_DUPS
 
+fpath=($HOME/.docker/completions $fpath)
+
 autoload -Uz compinit
 compinit
 
@@ -29,10 +31,7 @@ zle -N vi-yank-pbcopy
 bindkey -M vicmd 'y' vi-yank-pbcopy
 
 source <(fzf --zsh)
-
 bindkey -s ^f "tmux-sessionizer\n"
-
-source "$BUN_INSTALL/_bun"
 
 source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
