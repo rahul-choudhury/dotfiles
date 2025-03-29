@@ -6,13 +6,13 @@ export N_PRESERVE_NPM=1
 export N_PRESERVE_COREPACK=1
 
 export BUN_INSTALL=$HOME/.bun
+export EDITOR=vim
+export VISUAL=vim
 
 export HISTSIZE=50000
 export SAVEHIST=10000
 export KEYTIMEOUT=1
 
-export EDITOR=nvim
-export VISUAL=nvim
 
 export FZF_DEFAULT_OPTS="
 	--color=fg:#908caa,bg:#232136,hl:#ea9a97
