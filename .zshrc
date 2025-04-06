@@ -7,8 +7,6 @@ setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_SAVE_NO_DUPS
 
-fpath=($HOME/.docker/completions $fpath)
-
 autoload -Uz compinit
 compinit
 

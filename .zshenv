@@ -12,4 +12,6 @@ export HISTSIZE=50000
 export SAVEHIST=10000
 export KEYTIMEOUT=1
 
-export PATH=$N_PREFIX/bin:$HOME/.local/bin
+typeset -U path PATH
+path=($N_PREFIX/bin $HOME/.local/bin $HOME/.codeium/windsurf/bin $path)
+export PATH
