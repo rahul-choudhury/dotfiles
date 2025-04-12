@@ -13,5 +13,5 @@ export SAVEHIST=10000
 export KEYTIMEOUT=1
 
 typeset -U path PATH
-path=($N_PREFIX/bin $HOME/.local/bin $HOME/.codeium/windsurf/bin $path)
+path=($N_PREFIX/bin $HOME/.local/bin $path)
 export PATH
