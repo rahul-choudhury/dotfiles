@@ -17,6 +17,7 @@ zstyle ':completion:*' rehash true
 eval $(/opt/homebrew/bin/brew shellenv)
 
 alias pn=pnpm
+alias vim=nvim
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias ls='ls --color=auto'
 alias ll='ls -lAhsF --color=auto'
