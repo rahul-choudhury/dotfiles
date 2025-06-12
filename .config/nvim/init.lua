@@ -16,9 +16,9 @@ vim.g.maplocalleader = " "
 
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.tabstop = 2
-vim.opt.softtabstop = 2
-vim.opt.shiftwidth = 2
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.wrap = false
 vim.opt.undofile = true
@@ -40,6 +40,13 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { ".env.local", ".env.*.local" },
+  callback = function()
+    vim.bo.filetype = "sh"
+  end,
+})
+
 require("lazy").setup({
   "tpope/vim-fugitive",
   "tpope/vim-sleuth",
@@ -50,8 +57,31 @@ require("lazy").setup({
     name = "rose-pine",
     priority = 1000,
     config = function()
-      require("rose-pine").setup({ styles = { italic = false } })
-      vim.cmd("colorscheme rose-pine-moon")
+      require("rose-pine").setup()
+      vim.cmd("colorscheme rose-pine")
+    end,
+  },
+
+  {
+    "Exafunction/windsurf.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    cond = function()
+      local cwd = vim.fn.getcwd()
+      return string.match(cwd, vim.fn.expand("~/Code/Work/"))
+    end,
+    config = function()
+      require("codeium").setup({
+        enable_cmp_source = false,
+        virtual_text = {
+          enabled = true,
+          filetypes = {
+            markdown = false,
+            sh = false,
+          },
+        },
+      })
     end,
   },
 
@@ -89,42 +119,9 @@ require("lazy").setup({
         },
       })
 
-      vim.keymap.set("n", "<leader>ff", fzf_lua.files)
-      vim.keymap.set("n", "<leader>lg", fzf_lua.live_grep)
-      vim.keymap.set("n", "<leader>bg", fzf_lua.lgrep_curbuf)
-      vim.keymap.set("n", "<leader>ds", fzf_lua.lsp_document_symbols)
-    end,
-  },
-
-  {
-    "ThePrimeagen/harpoon",
-    branch = "harpoon2",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      local harpoon = require("harpoon")
-      harpoon:setup()
-
-      vim.keymap.set("n", "<leader>a", function()
-        harpoon:list():add()
-      end)
-      vim.keymap.set("n", "<C-e>", function()
-        harpoon.ui:toggle_quick_menu(harpoon:list(), {
-          title_pos = "center",
-        })
-      end)
-
-      vim.keymap.set("n", "<C-h>", function()
-        harpoon:list():select(1)
-      end)
-      vim.keymap.set("n", "<C-j>", function()
-        harpoon:list():select(2)
-      end)
-      vim.keymap.set("n", "<C-k>", function()
-        harpoon:list():select(3)
-      end)
-      vim.keymap.set("n", "<C-l>", function()
-        harpoon:list():select(4)
-      end)
+      vim.keymap.set("n", [[<C-\>]], fzf_lua.buffers)
+      vim.keymap.set("n", "<C-p>", fzf_lua.files)
+      vim.keymap.set("n", "<C-g>", fzf_lua.grep)
     end,
   },
 
@@ -142,16 +139,9 @@ require("lazy").setup({
     "neovim/nvim-lspconfig",
     dependencies = { "saghen/blink.cmp" },
     config = function()
-      vim.api.nvim_create_autocmd("LspAttach", {
-        callback = function()
-          vim.keymap.set("n", "grn", vim.lsp.buf.rename)
-          vim.keymap.set("n", "gra", vim.lsp.buf.code_action)
-          vim.keymap.set("n", "grr", vim.lsp.buf.references)
-          vim.keymap.set({ "n", "s" }, "<C-s>", vim.lsp.buf.signature_help)
-        end,
-      })
-
       local servers = {
+        clangd = {},
+        gopls = {},
         vtsls = {
           settings = {
             vtsls = { autoUseWorkspaceTsdk = true },
@@ -175,11 +165,10 @@ require("lazy").setup({
         tailwindcss = {
           settings = {
             tailwindCSS = {
+              classFunctions = { "cva", "cx" },
               experimental = {
                 classRegex = {
                   { "class:\\s*?[\"'`]([^\"'`]*).*?," },
-                  { "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
-                  { "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
                 },
               },
             },
@@ -203,9 +192,13 @@ require("lazy").setup({
       format_after_save = { lsp_format = "fallback" },
       formatters_by_ft = {
         lua = { "stylua" },
+        go = { "gofmt" },
+        cpp = { "clang-format" },
+        c = { "clang-format" },
         html = { "prettier" },
         css = { "prettier" },
         json = { "prettier" },
+        jsonc = { "prettier" },
         javascript = { "prettier" },
         typescript = { "prettier" },
         javascriptreact = { "prettier" },
