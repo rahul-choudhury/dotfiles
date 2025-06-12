@@ -7,6 +7,8 @@ setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_SAVE_NO_DUPS
 
+fpath=(/Users/rahul/.docker/completions $fpath)
+
 autoload -Uz compinit
 compinit
 
@@ -19,6 +21,8 @@ eval $(/opt/homebrew/bin/brew shellenv)
 alias pn=pnpm
 alias vim=nvim
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias cdp='cd ~/Code/Personal/'
+alias cdw='cd ~/Code/Work/'
 alias ls='ls --color=auto'
 alias ll='ls -lAhsF --color=auto'
 
@@ -36,4 +40,9 @@ source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 source "$HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme"
 
+bindkey '^ ' autosuggest-accept
+
 source "$HOME/.p10k.zsh"
+
+# bun completions
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"

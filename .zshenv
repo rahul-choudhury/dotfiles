@@ -13,5 +13,5 @@ export EDITOR=nvim
 export VISUAL=nvim
 
 typeset -U path PATH
-path=($N_PREFIX/bin $HOME/.local/bin $path)
+path=($N_PREFIX/bin $HOME/.bun/bin $HOME/.local/bin $path)
 export PATH
