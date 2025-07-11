@@ -27,8 +27,8 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.signcolumn = "yes"
 
-vim.keymap.set("n", "<M-j>", vim.cmd.cnext)
-vim.keymap.set("n", "<M-k>", vim.cmd.cprev)
+vim.keymap.set("n", "<M-]>", vim.cmd.cnext)
+vim.keymap.set("n", "<M-[>", vim.cmd.cprev)
 vim.keymap.set("n", "<leader>d", '"_d')
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set({ "n", "v" }, "<leader>Y", [["+Y]])
@@ -59,29 +59,6 @@ require("lazy").setup({
     config = function()
       require("rose-pine").setup()
       vim.cmd("colorscheme rose-pine")
-    end,
-  },
-
-  {
-    "Exafunction/windsurf.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    cond = function()
-      local cwd = vim.fn.getcwd()
-      return string.match(cwd, vim.fn.expand("~/Code/Work/"))
-    end,
-    config = function()
-      require("codeium").setup({
-        enable_cmp_source = false,
-        virtual_text = {
-          enabled = true,
-          filetypes = {
-            markdown = false,
-            sh = false,
-          },
-        },
-      })
     end,
   },
 
@@ -140,6 +117,7 @@ require("lazy").setup({
     dependencies = { "saghen/blink.cmp" },
     config = function()
       local servers = {
+        biome = {},
         clangd = {},
         gopls = {},
         vtsls = {
@@ -203,6 +181,8 @@ require("lazy").setup({
         typescript = { "prettier" },
         javascriptreact = { "prettier" },
         typescriptreact = { "prettier" },
+        yaml = { "prettier" },
+        yml = { "prettier" },
       },
     },
   },
