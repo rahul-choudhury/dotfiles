@@ -9,17 +9,6 @@
     "body": ["function $1($2) {", "  $3", "}"],
     "description": "Function Declaration"
   },
-  "Try-catch block": {
-    "prefix": "try",
-    "body": [
-      "try {",
-      "  $1",
-      "} catch (error) {",
-      "  console.error(error);",
-      "}"
-    ],
-    "description": "Try-catch block"
-  },
   "If statement": {
     "prefix": "if",
     "body": ["if ($1) {", "  $2", "}"],

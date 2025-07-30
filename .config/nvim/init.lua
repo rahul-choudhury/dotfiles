@@ -40,13 +40,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = { ".env.local", ".env.*.local" },
-  callback = function()
-    vim.bo.filetype = "sh"
-  end,
-})
-
 require("lazy").setup({
   "tpope/vim-fugitive",
   "tpope/vim-sleuth",
@@ -64,6 +57,8 @@ require("lazy").setup({
 
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "master",
+    lazy = false,
     build = ":TSUpdate",
     config = function()
       require("nvim-treesitter.configs").setup({
@@ -76,6 +71,7 @@ require("lazy").setup({
 
   {
     "nvim-treesitter/nvim-treesitter-context",
+    dependecies = { "nvim-treesitter/nvim-treesitter" },
     config = function()
       vim.keymap.set("n", "[c", function()
         require("treesitter-context").go_to_context(vim.v.count1)
@@ -114,52 +110,27 @@ require("lazy").setup({
 
   {
     "neovim/nvim-lspconfig",
-    dependencies = { "saghen/blink.cmp" },
     config = function()
-      local servers = {
-        biome = {},
-        clangd = {},
-        gopls = {},
-        vtsls = {
-          settings = {
-            vtsls = { autoUseWorkspaceTsdk = true },
-          },
+      vim.lsp.config("cssls", {
+        settings = {
+          css = { lint = { unknownAtRules = "ignore" } },
+          scss = { lint = { unknownAtRules = "ignore" } },
         },
-        jsonls = {},
-        eslint = {},
-        html = {},
-        cssls = {
-          settings = {
-            css = {
-              validate = true,
-              lint = { unknownAtRules = "ignore" },
-            },
-            scss = {
-              validate = true,
-              lint = { unknownAtRules = "ignore" },
-            },
-          },
-        },
-        tailwindcss = {
-          settings = {
-            tailwindCSS = {
-              classFunctions = { "cva", "cx" },
-              experimental = {
-                classRegex = {
-                  { "class:\\s*?[\"'`]([^\"'`]*).*?," },
-                },
-              },
-            },
-          },
-        },
-      }
+      })
 
-      local capabilities = require("blink.cmp").get_lsp_capabilities()
+      vim.lsp.config("tailwindcss", {
+        settings = {
+          tailwindCSS = { classFunctions = { "cva", "cx" } },
+        },
+      })
 
-      for server, opts in pairs(servers) do
-        opts.capabilities = capabilities
-        require("lspconfig")[server].setup(opts)
-      end
+      vim.lsp.enable({
+        "gopls",
+        "vtsls",
+        "eslint",
+        "cssls",
+        "tailwindcss",
+      })
     end,
   },
 
@@ -171,18 +142,11 @@ require("lazy").setup({
       formatters_by_ft = {
         lua = { "stylua" },
         go = { "gofmt" },
-        cpp = { "clang-format" },
-        c = { "clang-format" },
-        html = { "prettier" },
         css = { "prettier" },
-        json = { "prettier" },
-        jsonc = { "prettier" },
         javascript = { "prettier" },
         typescript = { "prettier" },
         javascriptreact = { "prettier" },
         typescriptreact = { "prettier" },
-        yaml = { "prettier" },
-        yml = { "prettier" },
       },
     },
   },
