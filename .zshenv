@@ -12,6 +12,10 @@ export KEYTIMEOUT=1
 export EDITOR=nvim
 export VISUAL=nvim
 
+if [ -f "$HOME/.zshenv.local" ]; then
+  source "$HOME/.zshenv.local"
+fi
+
 typeset -U path PATH
 path=($N_PREFIX/bin $HOME/.bun/bin $HOME/.local/bin $path)
 export PATH
