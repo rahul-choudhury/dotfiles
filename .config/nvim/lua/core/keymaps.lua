@@ -1,0 +1,5 @@
+vim.keymap.set("n", "<M-]>", vim.cmd.cnext)
+vim.keymap.set("n", "<M-[>", vim.cmd.cprev)
+vim.keymap.set("n", "<leader>d", '"_d')
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
+vim.keymap.set({ "n", "v" }, "<leader>Y", [["+Y]])
