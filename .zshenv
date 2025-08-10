@@ -5,6 +5,8 @@ export N_PREFIX=$HOME/.n
 export N_PRESERVE_NPM=1
 export N_PRESERVE_COREPACK=1
 
+export GOPATH=$HOME/.go
+
 export HISTSIZE=50000
 export SAVEHIST=10000
 export KEYTIMEOUT=1

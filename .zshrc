@@ -7,7 +7,7 @@ setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_SAVE_NO_DUPS
 
-fpath=(/Users/rahul/.docker/completions $fpath)
+fpath=($HOME/.docker/completions $fpath)
 
 autoload -Uz compinit
 compinit
@@ -21,7 +21,7 @@ eval $(/opt/homebrew/bin/brew shellenv)
 alias pn=pnpm
 alias vim=nvim
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-alias claude="/Users/rahul/.claude/local/claude"
+alias claude='~/.claude/local/claude'
 alias cdp='cd ~/Code/Personal/'
 alias cdw='cd ~/Code/Work/'
 alias ls='ls --color=auto'
@@ -47,4 +47,3 @@ source "$HOME/.p10k.zsh"
 
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-
