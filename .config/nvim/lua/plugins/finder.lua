@@ -4,6 +4,13 @@ return {
     local fzf_lua = require("fzf-lua")
 
     fzf_lua.setup({
+      winopts = {
+        border = "none",
+        preview = {
+          hidden = "true",
+          border = "none",
+        },
+      },
       keymap = {
         fzf = {
           ["ctrl-q"] = "select-all+accept",
