@@ -19,5 +19,5 @@ if [ -f "$HOME/.zshenv.local" ]; then
 fi
 
 typeset -U path PATH
-path=($N_PREFIX/bin $HOME/.bun/bin $HOME/.local/bin $path)
+path=($N_PREFIX/bin $HOME/.bun/bin $HOME/.opencode/bin $HOME/.local/bin $path)
 export PATH
