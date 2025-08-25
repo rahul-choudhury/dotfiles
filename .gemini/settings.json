@@ -1,5 +1,13 @@
 {
   "theme": "Default",
   "selectedAuthType": "oauth-personal",
-  "preferredEditor": "neovim"
+  "preferredEditor": "neovim",
+  "contextFileName": "AGENTS.md",
+  "coreTools": [
+    "ShellTool(pnpm run typecheck)",
+    "ShellTool(pnpm run lint)"
+  ],
+  "excludeTools": [
+    "ShellTool(pnpm run dev)"
+  ]
 }

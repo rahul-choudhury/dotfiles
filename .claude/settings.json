@@ -1,5 +1,17 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "includeCoAuthoredBy": false,
-  "model": "sonnet"
+  "permissions": {
+    "allow": [
+      "Bash(pnpm run typecheck)",
+      "Bash(pnpm run lint)",
+      "WebFetch"
+    ],
+    "deny": [
+      "Bash(pnpm run dev)"
+    ]
+  },
+  "feedbackSurveyState": {
+    "lastShownTime": 1754052923944
+  }
 }
-
