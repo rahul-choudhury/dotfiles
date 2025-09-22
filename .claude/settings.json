@@ -1,10 +1,13 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "includeCoAuthoredBy": false,
+  "model": "sonnet",
   "permissions": {
     "allow": [
       "Bash(pnpm run typecheck)",
       "Bash(pnpm run lint)",
+      "Bash(fd:*)",
+      "Bash(rg:*)",
       "WebFetch"
     ],
     "deny": [
