@@ -7,6 +7,10 @@ setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_SAVE_NO_DUPS
 
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+source <(fzf --zsh)
+
 fpath=($HOME/.docker/completions $fpath)
 
 autoload -Uz compinit
@@ -16,13 +20,10 @@ zstyle ':completion:*' use-cache on
 zstyle ':completion:*' menu select
 zstyle ':completion:*' rehash true
 
-eval $(/opt/homebrew/bin/brew shellenv)
-
 alias pn=pnpm
+alias cdp='cd $HOME/Code/Personal'
+alias cdw='cd $HOME/Code/Work'
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-alias claude='~/.claude/local/claude'
-alias cdp='cd ~/Code/Personal/'
-alias cdw='cd ~/Code/Work/'
 alias ls='ls --color=auto'
 alias ll='ls -lAhsF --color=auto'
 
@@ -33,14 +34,9 @@ function vi-yank-pbcopy {
 zle -N vi-yank-pbcopy
 bindkey -M vicmd 'y' vi-yank-pbcopy
 
-source <(fzf --zsh)
-bindkey -s ^f "tmux-sessionizer\n"
-
 source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 source "$HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme"
-
-bindkey '^ ' autosuggest-accept
 
 source "$HOME/.p10k.zsh"
 
