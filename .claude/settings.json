@@ -13,8 +13,5 @@
     "deny": [
       "Bash(pnpm run dev)"
     ]
-  },
-  "feedbackSurveyState": {
-    "lastShownTime": 1754052923944
   }
 }
