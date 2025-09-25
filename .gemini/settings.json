@@ -1,13 +1,16 @@
 {
-  "theme": "Default",
-  "selectedAuthType": "oauth-personal",
-  "preferredEditor": "neovim",
-  "contextFileName": "AGENTS.md",
-  "coreTools": [
-    "ShellTool(pnpm run typecheck)",
-    "ShellTool(pnpm run lint)"
-  ],
-  "excludeTools": [
-    "ShellTool(pnpm run dev)"
-  ]
+  "context": {
+    "fileName": "AGENTS.md"
+  },
+  "ide": {
+    "hasSeenNudge": true
+  },
+  "security": {
+    "auth": {
+      "selectedType": "gemini-api-key"
+    }
+  },
+  "ui": {
+    "theme": "Default"
+  }
 }
