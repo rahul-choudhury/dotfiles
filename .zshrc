@@ -19,7 +19,6 @@ zstyle ':completion:*' rehash true
 eval $(/opt/homebrew/bin/brew shellenv)
 
 alias pn=pnpm
-alias vim=nvim
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias claude='~/.claude/local/claude'
 alias cdp='cd ~/Code/Personal/'
