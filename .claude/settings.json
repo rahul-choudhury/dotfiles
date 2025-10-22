@@ -1,17 +1,16 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "includeCoAuthoredBy": false,
-  "model": "sonnet",
   "permissions": {
-    "allow": [
-      "Bash(pnpm run typecheck)",
-      "Bash(pnpm run lint)",
-      "Bash(fd:*)",
-      "Bash(rg:*)",
-      "WebFetch"
-    ],
     "deny": [
-      "Bash(pnpm run dev)"
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(~/.zshenv.local)"
     ]
-  }
+  },
+  "sandbox": {
+    "autoAllowBashIfSandboxed": true,
+    "enabled": true
+  },
+  "alwaysThinkingEnabled": false
 }
