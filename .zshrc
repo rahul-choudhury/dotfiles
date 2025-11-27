@@ -8,7 +8,6 @@ setopt HIST_IGNORE_SPACE
 setopt HIST_SAVE_NO_DUPS
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
-
 source <(fzf --zsh)
 
 fpath=($HOME/.docker/completions $fpath)
@@ -20,6 +19,7 @@ zstyle ':completion:*' use-cache on
 zstyle ':completion:*' menu select
 zstyle ':completion:*' rehash true
 
+alias vim=nvim
 alias pn=pnpm
 alias cdp='cd $HOME/Code/Personal'
 alias cdw='cd $HOME/Code/Work'
@@ -32,13 +32,16 @@ function vi-yank-pbcopy {
     echo "$CUTBUFFER" | pbcopy -i
 }
 zle -N vi-yank-pbcopy
+
 bindkey -M vicmd 'y' vi-yank-pbcopy
+bindkey '^ ' autosuggest-accept
+bindkey -s ^f "tmux-sessionizer\n"
 
 source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-source "$HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme"
 
+source "$HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme"
 source "$HOME/.p10k.zsh"
 
 # bun completions
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+[ -s "/Users/rahul/.bun/_bun" ] && source "/Users/rahul/.bun/_bun"

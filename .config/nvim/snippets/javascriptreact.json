@@ -1,0 +1,65 @@
+{
+  "Named export react component": {
+    "prefix": "comp",
+    "body": ["export function $1() {", "  return (", "    $2", "  );", "}"],
+    "description": "Named export react component"
+  },
+  "Default export react component": {
+    "prefix": "dcomp",
+    "body": [
+      "export default function $1() {",
+      "  return (",
+      "    $2",
+      "  );",
+      "}"
+    ],
+    "description": "Default export react component"
+  },
+  "React namespace import": {
+    "prefix": "rni",
+    "body": "import * as React from \"react\";",
+    "description": "React namespace import"
+  },
+  "React useState hook": {
+    "prefix": "ush",
+    "body": "const [$1, set$1] = React.useState($2);",
+    "description": "React useState hook"
+  },
+  "React useEffect hook": {
+    "prefix": "ueh",
+    "body": ["React.useEffect(() => {", "  $1", "}, [$2]);"],
+    "description": "React useEffect hook"
+  },
+  "React useRef hook": {
+    "prefix": "urh",
+    "body": "const $1 = React.useRef($2);",
+    "description": "React useRef hook"
+  },
+  "Next.js use client directive": {
+    "prefix": "ucd",
+    "body": "\"use client\";",
+    "description": "Next.js use client directive"
+  },
+  "Next.js page export": {
+    "prefix": "page",
+    "body": [
+      "export default function Page() {",
+      "  return (",
+      "    $1",
+      "  );",
+      "}"
+    ],
+    "description": "Next.js page export"
+  },
+  "Next.js layout export": {
+    "prefix": "layout",
+    "body": [
+      "export default function Layout({ children }) {",
+      "  return (",
+      "    $1",
+      "  );",
+      "}"
+    ],
+    "description": "Next.js layout export"
+  }
+}
