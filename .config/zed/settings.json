@@ -1,7 +1,7 @@
 {
   "disable_ai": true,
   "vim_mode": true,
-  "relative_line_numbers": true,
+  "relative_line_numbers": "enabled",
   "lsp": {
     "vscode-css-language-server": {
       "settings": {
