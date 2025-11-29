@@ -76,28 +76,7 @@ require("lazy").setup({
       end,
     },
 
-    {
-      "ibhagwan/fzf-lua",
-      config = function()
-        local fzf_lua = require("fzf-lua")
-
-        fzf_lua.setup({
-          keymap = {
-            fzf = {
-              ["ctrl-q"] = "select-all+accept",
-            },
-          },
-        })
-
-        vim.keymap.set("n", "<leader>fb", fzf_lua.buffers)
-        vim.keymap.set("n", "<leader>ff", fzf_lua.files)
-        vim.keymap.set("n", "<leader>fg", fzf_lua.grep)
-        vim.keymap.set("n", "<leader>lg", fzf_lua.live_grep)
-        vim.keymap.set("n", "<leader>fw", fzf_lua.grep_cword)
-        vim.keymap.set("n", "<leader>ds", fzf_lua.lsp_document_symbols)
-        vim.keymap.set("n", "<leader>ws", fzf_lua.lsp_live_workspace_symbols)
-      end,
-    },
+    { "mason-org/mason.nvim", opts = {} },
 
     {
       "neovim/nvim-lspconfig",
@@ -149,6 +128,29 @@ require("lazy").setup({
           markdown = { "prettier" },
         },
       },
+    },
+
+    {
+      "ibhagwan/fzf-lua",
+      config = function()
+        local fzf_lua = require("fzf-lua")
+
+        fzf_lua.setup({
+          keymap = {
+            fzf = {
+              ["ctrl-q"] = "select-all+accept",
+            },
+          },
+        })
+
+        vim.keymap.set("n", "<leader>fb", fzf_lua.buffers)
+        vim.keymap.set("n", "<leader>ff", fzf_lua.files)
+        vim.keymap.set("n", "<leader>fg", fzf_lua.grep)
+        vim.keymap.set("n", "<leader>lg", fzf_lua.live_grep)
+        vim.keymap.set("n", "<leader>fw", fzf_lua.grep_cword)
+        vim.keymap.set("n", "<leader>ds", fzf_lua.lsp_document_symbols)
+        vim.keymap.set("n", "<leader>ws", fzf_lua.lsp_live_workspace_symbols)
+      end,
     },
 
     "tpope/vim-fugitive",
