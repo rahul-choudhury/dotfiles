@@ -1,9 +1,4 @@
 {
-  "Log to the console": {
-    "prefix": "cl",
-    "body": ["console.log($1);", "$0"],
-    "description": "Log to the console"
-  },
   "Function Declaration": {
     "prefix": "fn",
     "body": ["function $1($2) {", "  $3", "}"],

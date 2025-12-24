@@ -28,11 +28,38 @@ vim.opt.undofile = true
 vim.opt.hlsearch = false
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
-vim.opt.signcolumn = "number"
+vim.opt.signcolumn = "yes"
+
+local FLOAT_BORDER_STYLE = "single"
+local MAX_FLOAT_WIDTH = math.floor(vim.o.columns * 0.6)
+local MAX_FLOAT_HEIGHT = 30
+
+vim.diagnostic.config({
+  float = {
+    border = FLOAT_BORDER_STYLE,
+    max_width = MAX_FLOAT_WIDTH,
+    max_height = MAX_FLOAT_HEIGHT,
+  },
+})
+
+vim.keymap.set("n", "K", function()
+  vim.lsp.buf.hover({
+    border = FLOAT_BORDER_STYLE,
+    max_width = MAX_FLOAT_WIDTH,
+    max_height = MAX_FLOAT_HEIGHT,
+  })
+end, { desc = "LSP Hover" })
+
+vim.keymap.set("i", "<C-s>", function()
+  vim.lsp.buf.signature_help({
+    border = FLOAT_BORDER_STYLE,
+    max_width = MAX_FLOAT_WIDTH,
+    max_height = MAX_FLOAT_HEIGHT,
+  })
+end, { desc = "LSP Signature Help" })
 
 vim.keymap.set("n", "<M-]>", vim.cmd.cnext)
 vim.keymap.set("n", "<M-[>", vim.cmd.cprev)
-vim.keymap.set("n", "<leader>d", '"_d')
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set({ "n", "v" }, "<leader>Y", [["+Y]])
 
@@ -49,20 +76,88 @@ require("lazy").setup({
       "rebelot/kanagawa.nvim",
       priority = 1000,
       config = function()
+        require("kanagawa").setup({
+          colors = {
+            theme = {
+              all = {
+                ui = {
+                  bg_gutter = "none",
+                },
+              },
+            },
+          },
+          overrides = function(colors)
+            local theme = colors.theme
+            return {
+              NormalFloat = { bg = "none" },
+              FloatBorder = { bg = "none" },
+              FloatTitle = { bg = "none" },
+
+              Pmenu = { fg = "none", bg = "none" },
+              PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
+              PmenuSbar = { bg = theme.ui.bg_m1 },
+              PmenuThumb = { bg = theme.ui.bg_p2 },
+              BlinkCmpMenuBorder = { fg = theme.ui.float.fg_border, bg = theme.ui.bg },
+            }
+          end,
+        })
         vim.cmd("colorscheme kanagawa")
       end,
     },
 
     {
       "nvim-treesitter/nvim-treesitter",
-      branch = "master",
+      branch = "main",
       lazy = false,
       build = ":TSUpdate",
       config = function()
-        require("nvim-treesitter.configs").setup({
-          auto_install = true,
-          highlight = { enable = true },
-          indent = { enable = true },
+        require("nvim-treesitter").install({
+          "vimdoc",
+          "gitcommit",
+          "git_rebase",
+          "gitignore",
+          "lua",
+          "go",
+          "gomod",
+          "gosum",
+          "javascript",
+          "typescript",
+          "tsx",
+          "sql",
+          "html",
+          "css",
+          "json",
+          "markdown",
+          "yaml",
+          "toml",
+        })
+
+        vim.api.nvim_create_autocmd("FileType", {
+          pattern = {
+            "checkhealth",
+            "vimdoc",
+            "gitcommit",
+            "gitrebase",
+            "gitignore",
+            "lua",
+            "go",
+            "gomod",
+            "gosum",
+            "javascript",
+            "javascriptreact",
+            "typescript",
+            "typescriptreact",
+            "sql",
+            "html",
+            "css",
+            "json",
+            "markdown",
+            "yaml",
+            "toml",
+          },
+          callback = function()
+            vim.treesitter.start()
+          end,
         })
       end,
     },
@@ -84,7 +179,6 @@ require("lazy").setup({
         vim.lsp.config("cssls", {
           settings = {
             css = { lint = { unknownAtRules = "ignore" } },
-            scss = { lint = { unknownAtRules = "ignore" } },
           },
         })
 
@@ -110,6 +204,10 @@ require("lazy").setup({
       opts = {
         keymap = { preset = "default" },
         cmdline = { enabled = false },
+        completion = {
+          menu = { border = FLOAT_BORDER_STYLE },
+          documentation = { window = { border = FLOAT_BORDER_STYLE } },
+        },
       },
     },
 
@@ -140,6 +238,11 @@ require("lazy").setup({
             fzf = {
               ["ctrl-q"] = "select-all+accept",
             },
+          },
+          winopts = {
+            border = FLOAT_BORDER_STYLE,
+            backdrop = 100,
+            preview = { border = FLOAT_BORDER_STYLE },
           },
         })
 
