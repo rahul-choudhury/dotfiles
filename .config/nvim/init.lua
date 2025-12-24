@@ -111,52 +111,49 @@ require("lazy").setup({
       lazy = false,
       build = ":TSUpdate",
       config = function()
-        require("nvim-treesitter").install({
-          "vimdoc",
-          "gitcommit",
-          "git_rebase",
-          "gitignore",
-          "lua",
-          "go",
-          "gomod",
-          "gosum",
-          "javascript",
-          "typescript",
-          "tsx",
-          "sql",
-          "html",
-          "css",
-          "json",
-          "markdown",
-          "yaml",
-          "toml",
-        })
+        local ts = require("nvim-treesitter")
+
+        local pending_buffers = {}
+
+        local function start_with_retry(buf, lang, attempts)
+          attempts = attempts or 10
+          local pending_key = buf .. ":" .. lang
+
+          if not vim.api.nvim_buf_is_valid(buf) then
+            pending_buffers[pending_key] = nil
+            return
+          end
+
+          local ok = pcall(vim.treesitter.start, buf, lang)
+          if ok then
+            pending_buffers[pending_key] = nil
+          elseif attempts > 0 then
+            pending_buffers[pending_key] = true
+            vim.defer_fn(function()
+              start_with_retry(buf, lang, attempts - 1)
+            end, 500)
+          else
+            pending_buffers[pending_key] = nil
+          end
+        end
 
         vim.api.nvim_create_autocmd("FileType", {
-          pattern = {
-            "checkhealth",
-            "vimdoc",
-            "gitcommit",
-            "gitrebase",
-            "gitignore",
-            "lua",
-            "go",
-            "gomod",
-            "gosum",
-            "javascript",
-            "javascriptreact",
-            "typescript",
-            "typescriptreact",
-            "sql",
-            "html",
-            "css",
-            "json",
-            "markdown",
-            "yaml",
-            "toml",
-          },
-          callback = function()
-            vim.treesitter.start()
+          callback = function(event)
+            local lang = vim.treesitter.language.get_lang(event.match) or event.match
+            local buf = event.buf
+
+            start_with_retry(buf, lang)
+            ts.install({ lang })
+          end,
+        })
+
+        vim.api.nvim_create_autocmd("BufDelete", {
+          callback = function(event)
+            for key in pairs(pending_buffers) do
+              if key:match("^" .. event.buf .. ":") then
+                pending_buffers[key] = nil
+              end
+            end
           end,
         })
       end,
