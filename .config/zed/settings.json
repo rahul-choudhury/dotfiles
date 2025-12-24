@@ -1,21 +1,22 @@
 {
   "disable_ai": true,
   "vim_mode": true,
+  "buffer_font_family": "CommitMono",
   "relative_line_numbers": "enabled",
   "lsp": {
     "vscode-css-language-server": {
       "settings": {
         "css": {
           "lint": {
-            "unknownAtRules": "ignore"
-          }
-        }
-      }
+            "unknownAtRules": "ignore",
+          },
+        },
+      },
     },
     "tailwindcss-language-server": {
       "settings": {
-        "classFunctions": ["cva", "cx"]
-      }
-    }
-  }
+        "classFunctions": ["cva", "cx"],
+      },
+    },
+  },
 }
