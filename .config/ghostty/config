@@ -1,4 +1,2 @@
 maximize = true
 theme = Kanagawa Wave
-macos-option-as-alt = true
-keybind = shift+enter=text:\x1b\r
