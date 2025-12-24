@@ -221,6 +221,7 @@ require("lazy").setup({
           javascriptreact = { "prettier" },
           typescriptreact = { "prettier" },
           markdown = { "prettier" },
+          json = { "prettier" },
         },
       },
     },
