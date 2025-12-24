@@ -254,6 +254,12 @@ require("lazy").setup({
       end,
     },
 
+    {
+      "sourcegraph/amp.nvim",
+      branch = "main",
+      opts = { auto_start = true, log_level = "info" },
+    },
+
     "tpope/vim-fugitive",
     "tpope/vim-sleuth",
     "tpope/vim-vinegar",
