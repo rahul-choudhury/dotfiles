@@ -29,37 +29,8 @@ vim.opt.hlsearch = false
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.signcolumn = "yes"
+vim.opt.winborder = "single"
 
-local FLOAT_BORDER_STYLE = "single"
-local MAX_FLOAT_WIDTH = math.floor(vim.o.columns * 0.6)
-local MAX_FLOAT_HEIGHT = 30
-
-vim.diagnostic.config({
-  float = {
-    border = FLOAT_BORDER_STYLE,
-    max_width = MAX_FLOAT_WIDTH,
-    max_height = MAX_FLOAT_HEIGHT,
-  },
-})
-
-vim.keymap.set("n", "K", function()
-  vim.lsp.buf.hover({
-    border = FLOAT_BORDER_STYLE,
-    max_width = MAX_FLOAT_WIDTH,
-    max_height = MAX_FLOAT_HEIGHT,
-  })
-end, { desc = "LSP Hover" })
-
-vim.keymap.set("i", "<C-s>", function()
-  vim.lsp.buf.signature_help({
-    border = FLOAT_BORDER_STYLE,
-    max_width = MAX_FLOAT_WIDTH,
-    max_height = MAX_FLOAT_HEIGHT,
-  })
-end, { desc = "LSP Signature Help" })
-
-vim.keymap.set("n", "<M-]>", vim.cmd.cnext)
-vim.keymap.set("n", "<M-[>", vim.cmd.cprev)
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set({ "n", "v" }, "<leader>Y", [["+Y]])
 
@@ -71,6 +42,10 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 require("lazy").setup({
+  ui = {
+    border = "single",
+    backdrop = 100,
+  },
   spec = {
     {
       "rebelot/kanagawa.nvim",
@@ -139,6 +114,8 @@ require("lazy").setup({
 
         vim.api.nvim_create_autocmd("FileType", {
           callback = function(event)
+            vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+
             local lang = vim.treesitter.language.get_lang(event.match) or event.match
             local buf = event.buf
 
@@ -168,11 +145,24 @@ require("lazy").setup({
       end,
     },
 
-    { "mason-org/mason.nvim", opts = {} },
+    {
+      "mason-org/mason.nvim",
+      opts = {
+        ui = {
+          backdrop = 100,
+        },
+      },
+    },
 
     {
       "neovim/nvim-lspconfig",
       config = function()
+        vim.lsp.config("vtsls", {
+          settings = {
+            vtsls = { autoUseWorkspaceTsdk = true },
+          },
+        })
+
         vim.lsp.config("cssls", {
           settings = {
             css = { lint = { unknownAtRules = "ignore" } },
@@ -186,6 +176,7 @@ require("lazy").setup({
         })
 
         vim.lsp.enable({
+          "clangd",
           "gopls",
           "vtsls",
           "eslint",
@@ -201,10 +192,6 @@ require("lazy").setup({
       opts = {
         keymap = { preset = "default" },
         cmdline = { enabled = false },
-        completion = {
-          menu = { border = FLOAT_BORDER_STYLE },
-          documentation = { window = { border = FLOAT_BORDER_STYLE } },
-        },
       },
     },
 
@@ -214,6 +201,8 @@ require("lazy").setup({
         format_after_save = { lsp_format = "fallback" },
         formatters_by_ft = {
           lua = { "stylua" },
+          c = { "clang-format" },
+          cpp = { "clang-format" },
           go = { "gofmt" },
           css = { "prettier" },
           javascript = { "prettier" },
@@ -232,25 +221,27 @@ require("lazy").setup({
         local fzf_lua = require("fzf-lua")
 
         fzf_lua.setup({
+          hls = {
+            border = "FloatBorder",
+          },
           keymap = {
             fzf = {
               ["ctrl-q"] = "select-all+accept",
             },
           },
           winopts = {
-            border = FLOAT_BORDER_STYLE,
+            border = "single",
             backdrop = 100,
-            preview = { border = FLOAT_BORDER_STYLE },
+            width = 0.50,
+            height = 0.50,
+            preview = {
+              hidden = true,
+            },
           },
         })
 
-        vim.keymap.set("n", "<leader>fb", fzf_lua.buffers)
-        vim.keymap.set("n", "<leader>ff", fzf_lua.files)
-        vim.keymap.set("n", "<leader>fg", fzf_lua.grep)
-        vim.keymap.set("n", "<leader>lg", fzf_lua.live_grep)
-        vim.keymap.set("n", "<leader>fw", fzf_lua.grep_cword)
-        vim.keymap.set("n", "<leader>ds", fzf_lua.lsp_document_symbols)
-        vim.keymap.set("n", "<leader>ws", fzf_lua.lsp_live_workspace_symbols)
+        vim.keymap.set("n", "<C-p>", fzf_lua.files)
+        vim.keymap.set("n", "<C-g>", fzf_lua.grep)
       end,
     },
 
