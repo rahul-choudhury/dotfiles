@@ -1,7 +1,6 @@
 {
   "disable_ai": true,
   "vim_mode": true,
-  "buffer_font_family": "CommitMono",
   "relative_line_numbers": "enabled",
   "lsp": {
     "vscode-css-language-server": {
