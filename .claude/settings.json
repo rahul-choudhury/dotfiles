@@ -4,12 +4,8 @@
   "permissions": {
     "deny": [
       "Read(./.env)",
-      "Read(./.env.*)"
+      "Read(./.env*.local)"
     ]
   },
-  "sandbox": {
-    "enabled": true,
-    "autoAllowBashIfSandboxed": true
-  },
-  "alwaysThinkingEnabled": false
+  "model": "opus"
 }
