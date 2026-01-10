@@ -19,8 +19,6 @@ zstyle ':completion:*' use-cache on
 zstyle ':completion:*' menu select
 zstyle ':completion:*' rehash true
 
-alias vim=nvim
-alias pn=pnpm
 alias cdp='cd $HOME/Code/Personal'
 alias cdw='cd $HOME/Code/Work'
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
@@ -35,7 +33,6 @@ zle -N vi-yank-pbcopy
 
 bindkey -M vicmd 'y' vi-yank-pbcopy
 bindkey '^ ' autosuggest-accept
-bindkey -s ^f "tmux-sessionizer\n"
 
 source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
