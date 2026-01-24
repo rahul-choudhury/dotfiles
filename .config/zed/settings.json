@@ -2,16 +2,15 @@
   "disable_ai": true,
   "vim_mode": true,
   "relative_line_numbers": "enabled",
-  "lsp": {
-    "vscode-css-language-server": {
-      "settings": {
-        "css": {
-          "lint": {
-            "unknownAtRules": "ignore",
-          },
-        },
-      },
+  "languages": {
+    "CSS": {
+      "language_servers": [
+        "tailwindcss-intellisense-css",
+        "!vscode-css-language-server",
+      ],
     },
+  },
+  "lsp": {
     "tailwindcss-language-server": {
       "settings": {
         "classFunctions": ["cva", "cx"],
