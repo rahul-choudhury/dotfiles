@@ -1,2 +1,5 @@
 maximize = true
 macos-option-as-alt = true
+theme = Kanagawa Wave
+font-family = Lilex
+font-size = 14

@@ -1,10 +1,8 @@
 export HOMEBREW_NO_ENV_HINTS=1
 export SHELL_SESSIONS_DISABLE=1
 
-export FZF_ALT_C_COMMAND="find $HOME/Code -mindepth 2 -maxdepth 2 -type d"
-
-export VISUAL=vim
-export EDITOR=vim
+export VISUAL=nvim
+export EDITOR=nvim
 
 export N_PREFIX=$HOME/.n
 export N_PRESERVE_NPM=1
