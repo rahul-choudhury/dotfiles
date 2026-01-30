@@ -13,5 +13,5 @@ export SAVEHIST=10000
 export KEYTIMEOUT=1
 
 typeset -U path PATH
-path=($HOME/.local/bin $HOME/.bun/bin $N_PREFIX/bin $HOME/.opencode/bin $path)
+path=($HOME/.local/bin $HOME/.bun/bin $N_PREFIX/bin $path)
 export PATH
