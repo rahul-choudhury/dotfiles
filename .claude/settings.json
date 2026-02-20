@@ -6,13 +6,19 @@
       "Bash(bun run typecheck)",
       "Bash(pnpm run lint)",
       "Bash(pnpm run typecheck)",
+      "Bash(npm run lint)",
+      "Bash(npm run typecheck)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)",
       "Bash(git show:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(gh pr view:*)",
       "Bash(ls:*)",
       "Bash(find:*)",
-      "WebFetch(domain:base-ui.com)"
+      "WebFetch(domain:base-ui.com)",
+      "WebFetch(domain:ui.shadcn.com)",
+      "WebFetch(domain:react.dev)"
     ],
     "deny": [
       "Read(./.env)",
