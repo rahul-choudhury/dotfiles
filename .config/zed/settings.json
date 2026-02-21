@@ -1,19 +1,19 @@
 {
+  "theme": "Carbonfox",
+  "buffer_font_size": 14,
   "disable_ai": true,
   "vim_mode": true,
   "relative_line_numbers": "enabled",
-  "languages": {
-    "CSS": {
-      "language_servers": [
-        "tailwindcss-intellisense-css",
-        "!vscode-css-language-server",
-      ],
-    },
-  },
   "lsp": {
     "tailwindcss-language-server": {
       "settings": {
         "classFunctions": ["cva", "cx"],
+      },
+    },
+    "biome": {
+      "settings": {
+        "require_config_file": true,
+        "config_path": "./biome.json",
       },
     },
   },
