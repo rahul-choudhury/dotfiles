@@ -10,8 +10,6 @@ setopt HIST_SAVE_NO_DUPS
 eval "$(/opt/homebrew/bin/brew shellenv)"
 source <(fzf --zsh)
 
-bindkey -s ^f "tmux-sessionizer\n"
-
 fpath=($HOME/.docker/completions $fpath)
 
 autoload -Uz compinit
@@ -21,7 +19,8 @@ zstyle ':completion:*' use-cache on
 zstyle ':completion:*' menu select
 zstyle ':completion:*' rehash true
 
-alias vim=nvim
+alias cdp='cd ~/code/personal'
+alias cdw='cd ~/code/work'
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias ls='ls --color=auto'
 alias ll='ls -lAhsF --color=auto'
@@ -41,6 +40,3 @@ bindkey '^ ' autosuggest-accept
 
 source "$HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme"
 source "$HOME/.p10k.zsh"
-
-# bun completions
-[ -s "/Users/rahul/.bun/_bun" ] && source "/Users/rahul/.bun/_bun"
