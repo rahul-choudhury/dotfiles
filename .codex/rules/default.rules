@@ -1,0 +1,4 @@
+prefix_rule(pattern=["git", "add"], decision="allow")
+prefix_rule(pattern=["bun", "run", "typecheck"], decision="allow")
+prefix_rule(pattern=["bun", "test"], decision="allow")
+prefix_rule(pattern=["git", "commit"], decision="allow")
