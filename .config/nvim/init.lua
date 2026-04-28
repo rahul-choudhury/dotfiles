@@ -12,6 +12,66 @@ local treesitter_languages = {
   "typescript",
 }
 
+local plugins = {
+  { src = "https://github.com/EdenEast/nightfox.nvim.git" },
+  { src = "https://github.com/nvim-treesitter/nvim-treesitter.git" },
+  { src = "https://github.com/nvim-treesitter/nvim-treesitter-context.git" },
+  { src = "https://github.com/neovim/nvim-lspconfig.git" },
+  { src = "https://github.com/saghen/blink.cmp.git", version = vim.version.range("1") },
+  { src = "https://github.com/stevearc/conform.nvim.git" },
+  { src = "https://github.com/ibhagwan/fzf-lua.git" },
+  { src = "https://github.com/tpope/vim-fugitive.git" },
+  { src = "https://github.com/tpope/vim-sleuth.git" },
+  { src = "https://github.com/tpope/vim-vinegar.git" },
+  { src = "https://github.com/windwp/nvim-ts-autotag.git" },
+  { src = "https://github.com/windwp/nvim-autopairs.git" },
+  { src = "https://github.com/folke/ts-comments.nvim.git" },
+  { src = "https://github.com/kylechui/nvim-surround.git" },
+}
+
+local lsps = {
+  gopls = {},
+  vtsls = {
+    settings = {
+      vtsls = { autoUseWorkspaceTsdk = true },
+    },
+  },
+  eslint = {},
+  tailwindcss = {
+    settings = {
+      tailwindCSS = {
+        classFunctions = { "cva", "cx" },
+      },
+    },
+  },
+  cssls = {
+    settings = {
+      css = {
+        lint = {
+          unknownAtRules = "ignore",
+        },
+      },
+    },
+  },
+}
+
+local formatters_by_ft = {
+  lua = { "stylua" },
+  go = { "gofmt" },
+}
+
+for _, filetype in ipairs({
+  "css",
+  "javascript",
+  "typescript",
+  "javascriptreact",
+  "typescriptreact",
+  "json",
+  "jsonc",
+}) do
+  formatters_by_ft[filetype] = { "prettier" }
+end
+
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
@@ -21,7 +81,6 @@ vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
-vim.opt.wrap = false
 vim.opt.undofile = true
 vim.opt.hlsearch = false
 vim.opt.ignorecase = true
@@ -42,29 +101,17 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 vim.api.nvim_create_autocmd("PackChanged", {
   group = vim.api.nvim_create_augroup("pack-hooks", { clear = true }),
   callback = function(event)
-    local spec = event.data.spec
-    if spec.name == "nvim-treesitter" and (event.data.kind == "install" or event.data.kind == "update") then
-      vim.system({ "nvim", "--headless", "-c", "TSUpdate", "-c", "qa" }, { text = true }):wait()
+    local data = event.data
+    if data.spec.name == "nvim-treesitter" and (data.kind == "install" or data.kind == "update") then
+      if not data.active then
+        vim.cmd.packadd("nvim-treesitter")
+      end
+      vim.cmd("TSUpdate")
     end
   end,
 })
 
-vim.pack.add({
-  "https://github.com/EdenEast/nightfox.nvim.git",
-  { src = "https://github.com/nvim-treesitter/nvim-treesitter.git", version = "main" },
-  "https://github.com/nvim-treesitter/nvim-treesitter-context.git",
-  "https://github.com/neovim/nvim-lspconfig.git",
-  { src = "https://github.com/saghen/blink.cmp.git", version = vim.version.range("1") },
-  "https://github.com/stevearc/conform.nvim.git",
-  "https://github.com/ibhagwan/fzf-lua.git",
-  "https://github.com/tpope/vim-fugitive.git",
-  "https://github.com/tpope/vim-sleuth.git",
-  "https://github.com/tpope/vim-vinegar.git",
-  "https://github.com/windwp/nvim-ts-autotag.git",
-  "https://github.com/windwp/nvim-autopairs.git",
-  "https://github.com/folke/ts-comments.nvim.git",
-  "https://github.com/kylechui/nvim-surround.git",
-}, { load = true, confirm = false })
+vim.pack.add(plugins, { load = true, confirm = false })
 
 require("nightfox").setup({
   groups = {
@@ -97,37 +144,11 @@ vim.keymap.set("n", "[c", function()
   require("treesitter-context").go_to_context(vim.v.count1)
 end, { silent = true })
 
-vim.lsp.config("vtsls", {
-  settings = {
-    vtsls = { autoUseWorkspaceTsdk = true },
-  },
-})
+for server, config in pairs(lsps) do
+  vim.lsp.config(server, config)
+end
 
-vim.lsp.config("tailwindcss", {
-  settings = {
-    tailwindCSS = {
-      classFunctions = { "cva", "cx" },
-    },
-  },
-})
-
-vim.lsp.config("cssls", {
-  settings = {
-    css = {
-      lint = {
-        unknownAtRules = "ignore",
-      },
-    },
-  },
-})
-
-vim.lsp.enable({
-  "gopls",
-  "vtsls",
-  "eslint",
-  "tailwindcss",
-  "cssls",
-})
+vim.lsp.enable(vim.tbl_keys(lsps))
 
 require("blink.cmp").setup({
   keymap = { preset = "default" },
@@ -151,17 +172,7 @@ require("blink.cmp").setup({
 
 require("conform").setup({
   format_after_save = { lsp_format = "fallback" },
-  formatters_by_ft = {
-    lua = { "stylua" },
-    go = { "gofmt" },
-    css = { "prettier" },
-    javascript = { "prettier" },
-    typescript = { "prettier" },
-    javascriptreact = { "prettier" },
-    typescriptreact = { "prettier" },
-    json = { "prettier" },
-    jsonc = { "prettier" },
-  },
+  formatters_by_ft = formatters_by_ft,
 })
 
 local fzf_lua = require("fzf-lua")
@@ -176,6 +187,7 @@ fzf_lua.setup({
 
 vim.keymap.set("n", "<C-p>", fzf_lua.files)
 vim.keymap.set("n", "<C-g>", fzf_lua.grep)
+vim.keymap.set("n", "<C-l>", fzf_lua.live_grep)
 
 require("nvim-ts-autotag").setup()
 require("nvim-autopairs").setup()
