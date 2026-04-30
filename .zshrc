@@ -23,6 +23,8 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' rehash true
 
 alias vim=nvim
+alias cdp='cd ~/code/personal/'
+alias cdw='cd ~/code/work/'
 alias ls='ls --color=auto'
 alias ll='ls -lAhsF --color=auto'
 
