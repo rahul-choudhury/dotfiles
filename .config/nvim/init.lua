@@ -149,6 +149,7 @@ for server, config in pairs(lsps) do
 end
 
 vim.lsp.enable(vim.tbl_keys(lsps))
+vim.lsp.document_color.enable(false)
 
 require("blink.cmp").setup({
   keymap = { preset = "default" },
