@@ -1,6 +1,8 @@
 export HOMEBREW_NO_ENV_HINTS=1
 export SHELL_SESSIONS_DISABLE=1
 
+export FNM_COREPACK_ENABLED=true
+
 export VISUAL=nvim
 export EDITOR=nvim
 
