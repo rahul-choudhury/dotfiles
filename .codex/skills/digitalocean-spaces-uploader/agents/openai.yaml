@@ -1,0 +1,4 @@
+interface:
+  display_name: "DigitalOcean Spaces Uploader"
+  short_description: "Upload files to Growth Panda Spaces"
+  default_prompt: "Use $digitalocean-spaces-uploader to upload a local file to DigitalOcean Spaces and return the public link."

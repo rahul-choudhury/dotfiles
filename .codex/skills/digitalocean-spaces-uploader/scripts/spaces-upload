@@ -1,0 +1,67 @@
+#!/usr/bin/env zsh
+set -euo pipefail
+
+PROFILE="${SPACES_PROFILE:-do-spaces}"
+REGION="${SPACES_REGION:-blr1}"
+BUCKET="${SPACES_BUCKET:-growthpanda}"
+ENDPOINT="${SPACES_ENDPOINT:-https://${REGION}.digitaloceanspaces.com}"
+
+usage() {
+  cat <<'EOF'
+Usage:
+  spaces-upload <file> <folder-or-key-prefix>
+
+Examples:
+  spaces-upload ~/Downloads/video.mp4 fft
+  spaces-upload ~/Downloads/video.mp4 client-assets/videos
+  spaces-upload ~/Downloads/video.mp4 /
+
+Environment overrides:
+  SPACES_PROFILE   AWS profile name, default: do-spaces
+  SPACES_REGION    DigitalOcean Spaces region, default: blr1
+  SPACES_BUCKET    Spaces bucket name, default: growthpanda
+EOF
+}
+
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+  usage
+  exit 0
+fi
+
+if [[ $# -ne 2 ]]; then
+  usage >&2
+  exit 1
+fi
+
+FILE_PATH="$1"
+PREFIX="$2"
+PREFIX="${PREFIX#/}"
+PREFIX="${PREFIX%/}"
+
+if [[ ! -f "$FILE_PATH" ]]; then
+  echo "File not found: $FILE_PATH" >&2
+  exit 1
+fi
+
+if ! command -v aws >/dev/null 2>&1; then
+  echo "aws CLI not found. Install it with: brew install awscli" >&2
+  exit 1
+fi
+
+BASENAME="${FILE_PATH:t}"
+if [[ -n "$PREFIX" ]]; then
+  OBJECT_KEY="${PREFIX}/${BASENAME}"
+else
+  OBJECT_KEY="$BASENAME"
+fi
+
+CONTENT_TYPE="$(file --mime-type -b "$FILE_PATH")"
+
+aws s3 cp "$FILE_PATH" "s3://${BUCKET}/${OBJECT_KEY}" \
+  --profile "$PROFILE" \
+  --endpoint-url "$ENDPOINT" \
+  --acl public-read \
+  --content-type "$CONTENT_TYPE"
+
+ENCODED_KEY="$(python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(sys.argv[1], safe="/"))' "$OBJECT_KEY")"
+echo "https://${BUCKET}.${REGION}.digitaloceanspaces.com/${ENCODED_KEY}"
