@@ -47,3 +47,4 @@ source "$HOME/.p10k.zsh"
 # bun completions
 [ -s "/Users/rahul/.bun/_bun" ] && source "/Users/rahul/.bun/_bun"
 
+[[ -f ~/.config/env ]] && source ~/.config/env
