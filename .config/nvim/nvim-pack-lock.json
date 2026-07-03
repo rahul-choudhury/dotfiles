@@ -10,7 +10,7 @@
       "src": "https://github.com/stevearc/conform.nvim.git"
     },
     "fzf-lua": {
-      "rev": "988416cc782dfe28bff3f0da9b8c943b236cd86a",
+      "rev": "09880d502bc76f1e025fdbdcaeff44650f7ea78a",
       "src": "https://github.com/ibhagwan/fzf-lua.git"
     },
     "nightfox.nvim": {
@@ -22,11 +22,11 @@
       "src": "https://github.com/windwp/nvim-autopairs.git"
     },
     "nvim-lspconfig": {
-      "rev": "229b79051b380377664edc4cbd534930154921a1",
+      "rev": "292f44408498103c47996ff5c18fd366293840d8",
       "src": "https://github.com/neovim/nvim-lspconfig.git"
     },
     "nvim-surround": {
-      "rev": "2e93e154de9ff326def6480a4358bfc149d5da2c",
+      "rev": "8b47db616ef658b8fc27e61db2896aa2f40134de",
       "src": "https://github.com/kylechui/nvim-surround.git"
     },
     "nvim-treesitter": {
@@ -42,7 +42,7 @@
       "src": "https://github.com/windwp/nvim-ts-autotag.git"
     },
     "ts-comments.nvim": {
-      "rev": "123a9fb12e7229342f807ec9e6de478b1102b041",
+      "rev": "a59d6092213447450191122c9346f309161504cb",
       "src": "https://github.com/folke/ts-comments.nvim.git"
     },
     "vim-fugitive": {

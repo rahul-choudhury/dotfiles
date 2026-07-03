@@ -111,6 +111,10 @@ vim.api.nvim_create_autocmd("PackChanged", {
   end,
 })
 
+vim.api.nvim_create_user_command("PackUpdate", function()
+  vim.pack.update()
+end, {})
+
 vim.pack.add(plugins, { load = true, confirm = false })
 
 require("nightfox").setup({
