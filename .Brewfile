@@ -1,5 +1,6 @@
 tap "homebrew/bundle"
 brew "awscli"
+brew "biome"
 brew "fd"
 brew "fnm"
 brew "fzf"

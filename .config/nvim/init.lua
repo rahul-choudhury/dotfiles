@@ -37,6 +37,7 @@ local lsps = {
     },
   },
   eslint = {},
+  biome = {},
   tailwindcss = {
     settings = {
       tailwindCSS = {
@@ -69,7 +70,7 @@ for _, filetype in ipairs({
   "json",
   "jsonc",
 }) do
-  formatters_by_ft[filetype] = { "prettier" }
+  formatters_by_ft[filetype] = { "biome", "prettier", stop_after_first = true }
 end
 
 vim.g.mapleader = " "
