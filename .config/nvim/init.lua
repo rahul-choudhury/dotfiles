@@ -1,15 +1,23 @@
 local treesitter_languages = {
+  "bash",
   "css",
+  "diff",
+  "dockerfile",
+  "git_config",
   "git_rebase",
   "gitcommit",
   "go",
   "gomod",
   "gosum",
+  "html",
   "javascript",
   "json",
+  "regex",
   "sql",
+  "toml",
   "tsx",
   "typescript",
+  "yaml",
 }
 
 local plugins = {
