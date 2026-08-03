@@ -1,1 +1,1 @@
-For any kind of github operations, utilise the `gh` cli and use it outside of sandbox.
+For any kind of github operations, utilise the `gh` cli and use it outside of sandbox. For browser related tasks, always prefer the in-app browser. If it is not present in the current environment, then reach out for agent-browser.
