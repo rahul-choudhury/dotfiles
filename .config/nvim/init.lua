@@ -10,6 +10,8 @@ local treesitter_languages = {
   "gomod",
   "gosum",
   "html",
+  "markdown",
+  "markdown_inline",
   "javascript",
   "json",
   "regex",
@@ -21,9 +23,11 @@ local treesitter_languages = {
 }
 
 local plugins = {
-  { src = "https://github.com/EdenEast/nightfox.nvim.git" },
+  { src = "https://github.com/rktjmp/lush.nvim" },
+  { src = "https://github.com/zenbones-theme/zenbones.nvim" },
   { src = "https://github.com/nvim-treesitter/nvim-treesitter.git" },
   { src = "https://github.com/nvim-treesitter/nvim-treesitter-context.git" },
+  { src = "https://github.com/OXY2DEV/markview.nvim.git" },
   { src = "https://github.com/neovim/nvim-lspconfig.git" },
   { src = "https://github.com/saghen/blink.cmp.git", version = vim.version.range("1") },
   { src = "https://github.com/stevearc/conform.nvim.git" },
@@ -96,6 +100,14 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.signcolumn = "yes"
 vim.opt.winborder = "rounded"
+vim.opt.termguicolors = true
+
+local background = "dark"
+if vim.fn.has("macunix") == 1 then
+  local appearance = vim.fn.systemlist("defaults read -g AppleInterfaceStyle 2>/dev/null")
+  background = appearance[1] == "Dark" and "dark" or "light"
+end
+vim.opt.background = background
 
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set({ "n", "v" }, "<leader>Y", [["+Y]])
@@ -125,17 +137,14 @@ vim.api.nvim_create_user_command("PackUpdate", function()
 end, {})
 
 vim.pack.add(plugins, { load = true, confirm = false })
-
-require("nightfox").setup({
-  groups = {
-    all = {
-      NormalFloat = { bg = "NONE" },
-    },
-  },
-})
-vim.cmd.colorscheme("carbonfox")
+vim.cmd.colorscheme(background == "light" and "zenwritten" or "zenbones")
 
 require("nvim-treesitter").install(treesitter_languages)
+require("markview").setup({})
+
+vim.keymap.set("n", "<leader>mp", "<cmd>Markview toggle<cr>", {
+  desc = "Toggle Markdown rendering",
+})
 
 vim.api.nvim_create_autocmd("FileType", {
   group = vim.api.nvim_create_augroup("treesitter.setup", { clear = true }),
@@ -187,6 +196,10 @@ require("blink.cmp").setup({
 require("conform").setup({
   format_after_save = { lsp_format = "fallback" },
   formatters_by_ft = formatters_by_ft,
+  formatters = {
+    biome = { require_cwd = true },
+    prettier = { require_cwd = true },
+  },
 })
 
 local fzf_lua = require("fzf-lua")
