@@ -1,0 +1,10 @@
+#!/bin/sh
+
+file="$HOME/read-later/read-later.md"
+mkdir -p "$(dirname "$file")"
+if [ ! -s "$file" ]; then
+    printf '# Read Later\n\n' > "$file"
+fi
+
+editor=${VISUAL:-${EDITOR:-vi}}
+"$editor" "$file"

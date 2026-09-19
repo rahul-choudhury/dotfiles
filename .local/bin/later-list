@@ -1,0 +1,6 @@
+#!/bin/sh
+
+file="$HOME/read-later/read-later.md"
+[ -f "$file" ] || exit 0
+
+awk 'index($0, "- [ ] ") == 1 { print substr($0, 7) }' "$file"

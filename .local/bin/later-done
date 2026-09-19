@@ -1,0 +1,35 @@
+#!/bin/sh
+
+file="$HOME/read-later/read-later.md"
+
+if [ "$#" -ne 1 ]; then
+    printf 'Usage: later-done <url>\n' >&2
+    exit 2
+fi
+
+url=$1
+case $url in
+    http://*|https://*) ;;
+    *)
+        printf 'Error: URL must begin with http:// or https://\n' >&2
+        exit 2
+        ;;
+esac
+
+if [ ! -f "$file" ] || ! grep -Fqx -- "- [ ] $url" "$file"; then
+    if [ -f "$file" ] && grep -Fqx -- "- [x] $url" "$file"; then
+        printf '→ Already marked done\n'
+        exit 0
+    fi
+    printf 'Error: URL not found in read-later\n' >&2
+    exit 1
+fi
+
+tmp="${file}.tmp.$$"
+trap 'rm -f "$tmp"' EXIT HUP INT TERM
+awk -v target="- [ ] $url" '
+    $0 == target { sub(/^-[[:space:]]\[ \]/, "- [x]") }
+    { print }
+' "$file" > "$tmp" && mv "$tmp" "$file"
+trap - EXIT HUP INT TERM
+printf '✓ Marked as read\n'

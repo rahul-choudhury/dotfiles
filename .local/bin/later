@@ -1,0 +1,42 @@
+#!/bin/sh
+
+file="$HOME/read-later/read-later.md"
+
+if [ "$#" -eq 0 ]; then
+    printf 'Usage: later <url> [url ...]\n' >&2
+    exit 2
+fi
+
+# Validate the whole batch before changing the file.
+for url do
+    case $url in
+        http://*|https://*) ;;
+        *)
+            printf 'Error: URL must begin with http:// or https://: %s\n' "$url" >&2
+            exit 2
+            ;;
+    esac
+done
+
+mkdir -p "$(dirname "$file")"
+if [ ! -s "$file" ]; then
+    printf '# Read Later\n\n' > "$file"
+fi
+
+for url do
+    if grep -Fqx -- "- [ ] $url" "$file" || grep -Fqx -- "- [x] $url" "$file"; then
+        if [ "$#" -eq 1 ]; then
+            printf '→ Already in read-later\n'
+        else
+            printf '→ Already in read-later: %s\n' "$url"
+        fi
+        continue
+    fi
+
+    printf '%s\n' "- [ ] $url" >> "$file"
+    if [ "$#" -eq 1 ]; then
+        printf '✓ Saved to read-later\n'
+    else
+        printf '✓ Saved: %s\n' "$url"
+    fi
+done
